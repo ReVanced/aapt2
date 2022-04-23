@@ -1,0 +1,64 @@
+[submodule "src/core"]
+	path = src/core
+	url = https://android.googlesource.com/platform/system/core
+[submodule "src/expat"]
+	path = src/expat
+	url = https://android.googlesource.com/platform/external/expat
+[submodule "src/libbase"]
+	path = src/libbase
+	url = https://android.googlesource.com/platform/system/libbase
+[submodule "src/logging"]
+	path = src/logging
+	url = https://android.googlesource.com/platform/system/logging
+[submodule "src/incremental_delivery"]
+	path = src/incremental_delivery
+	url = https://android.googlesource.com/platform/system/incremental_delivery
+[submodule "src/base"]
+	path = src/base
+	url = https://android.googlesource.com/platform/frameworks/base
+[submodule "src/zipalign"]
+	path = src/zipalign
+	url = https://github.com/osm0sis/zipalign
+[submodule "src/pcre"]
+	path = src/pcre
+	url = https://android.googlesource.com/platform/external/pcre.git
+[submodule "src/libpng"]
+	path = src/libpng
+	url = https://android.googlesource.com/platform/external/libpng
+[submodule "src/protobuf"]
+	path = src/protobuf
+	url = https://android.googlesource.com/platform/external/protobuf
+[submodule "src/fmtlib"]
+	path = src/fmtlib
+	url = https://android.googlesource.com/platform/external/fmtlib
+[submodule "src/zopfli"]
+	path = src/zopfli
+	url = https://android.googlesource.com/platform/external/zopfli
+[submodule "src/jsoncpp"]
+	path = src/jsoncpp
+	url = https://android.googlesource.com/platform/external/jsoncpp
+[submodule "src/selinux"]
+	path = src/selinux
+	url = https://android.googlesource.com/platform/external/selinux
+[submodule "src/googletest"]
+	path = src/googletest
+	url = https://android.googlesource.com/platform/external/googletest
+[submodule "src/libsepol"]
+	path = src/libsepol
+	url = https://android.googlesource.com/platform/external/libsepol
+[submodule "src/boringssl"]
+	path = src/boringssl
+	url = https://boringssl.googlesource.com/boringssl
+[submodule "src/native"]
+	path = src/native
+	url = https://android.googlesource.com/platform/frameworks/native
+[submodule "src/unwinding"]
+	path = src/unwinding
+	url = https://android.googlesource.com/platform/system/unwinding
+[submodule "src/libziparchive"]
+	path = src/libziparchive
+	url = https://android.googlesource.com/platform/system/libziparchive
+	branch = android12--mainline-release
+[submodule "src/soong"]
+	path = src/soong
+	url = https://android.googlesource.com/platform/build/soong

@@ -1,0 +1,48 @@
+name: Build package aapt
+
+on:
+  push:
+    paths:
+      - '.github/**'
+  workflow_dispatch:
+    inputs:
+      logLevel:
+        description: 'Reason'     
+        required: false
+        default: 'update package'
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      ANDROID_HOME: "/opt/termux/android-sdk"
+      NDK: "/opt/termux/android-ndk"
+
+    strategy:
+      matrix:
+        target_arch: [aarch64, arm]
+      fail-fast: false
+    steps:
+      - name: Clone termux-packages repository
+        run: git clone https://github.com/termux/termux-packages .
+
+      - name: Build aapt package
+        run: ./scripts/run-docker.sh ./build-package.sh -a ${{ matrix.target_arch }} aapt
+
+      - name: Prepare artifacts
+        run: |
+          cd output
+
+          # TODO: silently ignore extracting/overwriting existing files, because it exits with code != 0
+          for pkg in *.deb; do dpkg-deb -R $pkg extracted_packages || true; done
+
+          cd extracted_packages/data/data/com.termux/files/usr/
+          rm -r include/ share/ lib/pkgconfig/ lib/cmake/
+
+          # TODO: find a way to exclude deleting the bin directory itself, because it exits with code != 0
+          find bin ! -name 'aapt2' -exec rm -f {} + || true
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: aapt-${{ matrix.target_arch }}-${{ github.sha }}
+          path: output/extracted_packages/data/data/com.termux/files/usr/

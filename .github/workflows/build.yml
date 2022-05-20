@@ -38,8 +38,7 @@ jobs:
           cd extracted_packages/data/data/com.termux/files/usr/
           rm -r include/ share/ lib/pkgconfig/ lib/cmake/
 
-          # TODO: find a way to exclude deleting the bin directory itself, because it exits with code != 0
-          find bin ! -name 'aapt2' -exec rm -f {} + || true
+          find bin ! -name 'aapt2' -mindepth 1 -exec rm -f {} + || true
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v3

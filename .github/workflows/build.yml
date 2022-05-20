@@ -32,8 +32,7 @@ jobs:
         run: |
           cd output
 
-          # TODO: silently ignore extracting/overwriting existing files, because it exits with code != 0
-          for pkg in *.deb; do dpkg-deb -R $pkg extracted_packages || true; done
+          for pkg in *.deb; do dpkg-deb -x $pkg extracted_packages; done
 
           cd extracted_packages/data/data/com.termux/files/usr/
           rm -r include/ share/ lib/pkgconfig/ lib/cmake/

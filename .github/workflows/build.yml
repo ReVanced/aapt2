@@ -38,7 +38,7 @@ jobs:
           cd extracted_packages/data/data/com.termux/files/usr/
           rm -r include/ share/ lib/pkgconfig/ lib/cmake/
 
-          find bin ! -name 'aapt2' -mindepth 1 -exec rm -f {} + || true
+          find bin ! -name 'aapt2' -mindepth 1 -exec rm -f {} +
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v3

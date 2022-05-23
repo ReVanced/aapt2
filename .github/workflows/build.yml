@@ -19,7 +19,7 @@ jobs:
 
     strategy:
       matrix:
-        target_arch: [aarch64, arm]
+        target_arch: [aarch64, arm, x86]
       fail-fast: false
     steps:
       - name: Clone termux-packages repository

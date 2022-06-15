@@ -31,9 +31,7 @@ jobs:
         run: cp *.patch termux-packages/packages/aapt
 
       - name: Build aapt package
-        run: |
-          cd termux-packages
-          ./scripts/run-docker.sh ./build-package.sh -a all aapt
+        run: ./build.sh
 
       - name: Prepare artifacts
         run: ./prepare.sh

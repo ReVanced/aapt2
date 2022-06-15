@@ -17,10 +17,6 @@ jobs:
       ANDROID_HOME: "/opt/termux/android-sdk"
       NDK: "/opt/termux/android-ndk"
 
-    strategy:
-      matrix:
-        target_arch: [aarch64, arm, i686]
-      fail-fast: false
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -37,21 +33,14 @@ jobs:
       - name: Build aapt package
         run: |
           cd termux-packages
-          ./scripts/run-docker.sh ./build-package.sh -a ${{ matrix.target_arch }} aapt
+          ./scripts/run-docker.sh ./build-package.sh -I -a all aapt
 
       - name: Prepare artifacts
-        run: |
-          cd termux-packages/output
-
-          for pkg in *.deb; do dpkg-deb -x $pkg extracted_packages; done
-
-          cd extracted_packages/data/data/com.termux/files/usr/
-          rm -r include/ share/ lib/pkgconfig/ lib/cmake/
-
-          find bin ! -name 'aapt2' -mindepth 1 -exec rm -f {} +
+        run: ./prepare.sh
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v3
         with:
-          name: aapt-${{ matrix.target_arch }}-${{ github.sha }}
-          path: termux-packages/output/extracted_packages/data/data/com.termux/files/usr/
+          name: aapt2-${{ github.sha }}
+          path: termux-packages/output/*/data/data/com.termux/files/usr/bin/*
+          if-no-files-found: error

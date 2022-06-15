@@ -27,3 +27,11 @@
  	for i in $(seq 0 $(( ${#TERMUX_PKG_SRCURL[@]}-1 ))); do
  		git clone --depth 1 --single-branch \
  			--branch $TERMUX_PKG_GIT_BRANCH \
+@@ -203,6 +203,7 @@ termux_step_make() {
+ 		-lexpat \
+ 		-lpng \
+ 		-lprotobuf \
++		-static \
+ 		-o $_TMP_BINDIR/aapt2
+ 
+ 	# Build zipalign:

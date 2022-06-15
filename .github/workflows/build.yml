@@ -27,6 +27,19 @@ jobs:
           repository: termux/termux-packages
           path: termux-packages
 
+      - name: Apply termux patches
+        run: |
+          cd termux-packages
+          git apply ../termux/*.patch
+
+      - name: Clone AOSP base repository
+        uses: actions/checkout@v3
+        with:
+          repository: termux/termux-packages
+          path: termux-packages/packages/aapt/base
+          ref: android-12.0.0_r27
+          fetch-depth: 1
+
       - name: Add aapt2 patches
         run: cp *.patch termux-packages/packages/aapt
 

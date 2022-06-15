@@ -1,0 +1,20 @@
+--- a/packages/aapt/build.sh
++++ b/packages/aapt/build.sh
+@@ -6,8 +6,7 @@ _TAG_VERSION=12.0.0
+ _TAG_REVISION=27
+ TERMUX_PKG_VERSION=${_TAG_VERSION}.${_TAG_REVISION}
+ TERMUX_PKG_REVISION=3
+-TERMUX_PKG_SRCURL=(https://android.googlesource.com/platform/frameworks/base
+-                   https://android.googlesource.com/platform/system/core
++TERMUX_PKG_SRCURL=(https://android.googlesource.com/platform/system/core
+                    https://android.googlesource.com/platform/system/libbase
+                    https://android.googlesource.com/platform/system/libziparchive
+                    https://android.googlesource.com/platform/system/logging
+@@ -21,7 +20,6 @@ TERMUX_PKG_SHA256=(SKIP_CHECKSUM
+                    SKIP_CHECKSUM
+                    SKIP_CHECKSUM
+                    SKIP_CHECKSUM
+-                   SKIP_CHECKSUM
+                    SKIP_CHECKSUM)
+ TERMUX_PKG_SKIP_SRC_EXTRACT=true
+ TERMUX_PKG_BUILD_IN_SRC=true

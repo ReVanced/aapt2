@@ -22,15 +22,25 @@ jobs:
         target_arch: [aarch64, arm, i686]
       fail-fast: false
     steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
       - name: Clone termux-packages repository
-        run: git clone https://github.com/termux/termux-packages .
+        uses: actions/checkout@v3
+        with:
+          repository: termux/termux-packages
+
+      - name: Add aapt2 patches
+        run: cp *.patch termux-packages/packages/aapt
 
       - name: Build aapt package
-        run: ./scripts/run-docker.sh ./build-package.sh -a ${{ matrix.target_arch }} aapt
+        run: |
+          cd termux-packages
+          ./scripts/run-docker.sh ./build-package.sh -a ${{ matrix.target_arch }} aapt
 
       - name: Prepare artifacts
         run: |
-          cd output
+          cd termux-packages/output
 
           for pkg in *.deb; do dpkg-deb -x $pkg extracted_packages; done
 
@@ -43,4 +53,4 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: aapt-${{ matrix.target_arch }}-${{ github.sha }}
-          path: output/extracted_packages/data/data/com.termux/files/usr/
+          path: termux-packages/output/extracted_packages/data/data/com.termux/files/usr/

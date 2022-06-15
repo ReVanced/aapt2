@@ -32,11 +32,6 @@ jobs:
           cd termux-packages
           git apply ../termux/*.patch
 
-      - name: Clone AOSP base repository
-        run: |
-          cd termux-packages/packages/aapt
-          git clone --depth 1 --single-branch --branch android-12.0.0_r27 https://android.googlesource.com/platform/frameworks/base
-
       - name: Add aapt2 patches
         run: cp *.patch termux-packages/packages/aapt
 

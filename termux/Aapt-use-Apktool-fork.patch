@@ -18,3 +18,12 @@
                     SKIP_CHECKSUM)
  TERMUX_PKG_SKIP_SRC_EXTRACT=true
  TERMUX_PKG_BUILD_IN_SRC=true
+@@ -34,6 +32,8 @@ termux_step_post_get_source() {
+ 	# tar files, but they change each time as the tar metadata
+ 	# differs: https://github.com/google/gitiles/issues/84
+ 
++	git clone --depth 1 https://github.com/iBotPeaches/platform_frameworks_base.git base
++
+ 	for i in $(seq 0 $(( ${#TERMUX_PKG_SRCURL[@]}-1 ))); do
+ 		git clone --depth 1 --single-branch \
+ 			--branch $TERMUX_PKG_GIT_BRANCH \

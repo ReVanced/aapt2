@@ -31,8 +31,10 @@ jobs:
           repository: termux/termux-packages
           path: termux-packages
 
-      - name: Add aapt2 patches
-        run: cp *.patch termux-packages/packages/aapt
+      - name: Apply termux patches
+        run: |
+          cd termux-packages
+          git apply ../termux/*.patch
 
       - name: Build aapt package
         run: |

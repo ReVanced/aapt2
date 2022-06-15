@@ -19,7 +19,7 @@ jobs:
 
     strategy:
       matrix:
-        target_arch: [aarch64, arm, i686]
+        target_arch: [i686]
       fail-fast: false
     steps:
       - name: Checkout

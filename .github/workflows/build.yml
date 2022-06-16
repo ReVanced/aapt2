@@ -23,6 +23,11 @@ jobs:
         with:
           repository: 'RohitVerma882/build-tools'
           path: 'build-tools'
+          
+      - uses: actions/checkout@v3
+        with:
+          repository: 'revanced/aapt2'
+          path: 'aapt2'
 
       - name: Set up JDK 1.8
         uses: actions/setup-java@v3
@@ -39,7 +44,7 @@ jobs:
       - name: Build aapt2
         env:
           NDK_TOOLCHAIN: "${{ env.ANDROID_HOME }}/ndk/${{ env.NDK_VERSION }}/toolchains/llvm/prebuilt/linux-x86_64"
-        run: ls ../
+        run: ./aapt2/build.sh
 
       - uses: actions/upload-artifact@v3
         with:

@@ -1,4 +1,4 @@
-name: Build package aapt
+name: Build aapt2
 
 on:
   push:

@@ -55,7 +55,7 @@ compileAapt2() {
     -DCMAKE_BUILD_WITH_INSTALL_RPATH=True \
     -DCMAKE_SYSROOT="$NDK_TOOLCHAIN/sysroot" \
     -DCMAKE_BUILD_TYPE=Release \
-    -DARCH="$arch" \
+    -DANDROID_ABI="$arch" \
     .. || exit 1
 
   ninja -j16 || exit 1

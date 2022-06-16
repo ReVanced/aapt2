@@ -2,8 +2,8 @@ name: Build aapt2 binary
 
 on:
   push:
-    paths:
-      - '.github/**'
+    branches:
+      - main
   workflow_dispatch:
     inputs:
       logLevel:

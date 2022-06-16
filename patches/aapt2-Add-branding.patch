@@ -1,0 +1,11 @@
+--- a/src/aapt2/Main.cpp
++++ b/src/aapt2/Main.cpp
+@@ -54,7 +54,7 @@ class VersionCommand : public Command {
+   }
+ 
+   int Action(const std::vector<std::string>& /* args */) override {
+-    std::cerr << StringPrintf("%s %s", util::GetToolName(), util::GetToolFingerprint().c_str())
++    std::cerr << StringPrintf("%s %s (by ReVanced, github.com/revanced/aapt2)", util::GetToolName(), util::GetToolFingerprint().c_str())
+               << std::endl;
+     return 0;
+   }

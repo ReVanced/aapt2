@@ -1,5 +1,5 @@
---- a/base/tools/aapt2/Android.bp
-+++ b/base/tools/aapt2/Android.bp
+--- a/src/aapt2/Android.bp
++++ b/src/aapt2/Android.bp
 @@ -54,6 +54,7 @@
          },
          darwin: {
@@ -17,8 +17,8 @@
      static_libs: ["libaapt2"],
      defaults: ["aapt2_defaults"],
      dist: {
---- a/base/tools/aapt2/ResourceTable.cpp
-+++ b/base/tools/aapt2/ResourceTable.cpp
+--- a/src/aapt2/ResourceTable.cpp
++++ b/src/aapt2/ResourceTable.cpp
 @@ -460,9 +460,8 @@
    const bool validate = validation_ == Validation::kEnabled;
    const Source source = res.value ? res.value->GetSource() : Source{};
@@ -31,8 +31,8 @@
    }
  
    if (res.id.has_value() && !res.id->first.is_valid()) {
---- a/base/tools/aapt2/ResourceUtils.cpp
-+++ b/base/tools/aapt2/ResourceUtils.cpp
+--- a/src/aapt2/ResourceUtils.cpp
++++ b/src/aapt2/ResourceUtils.cpp
 @@ -222,7 +222,7 @@
      }
  
@@ -42,8 +42,8 @@
      }
  
      if (entry.empty()) {
---- a/base/tools/aapt2/cmd/Link.cpp
-+++ b/base/tools/aapt2/cmd/Link.cpp
+--- a/src/aapt2/cmd/Link.cpp
++++ b/src/aapt2/cmd/Link.cpp
 @@ -2326,9 +2326,9 @@
      if (package_id_int > std::numeric_limits<uint8_t>::max()
          || package_id_int == kFrameworkPackageId
@@ -80,8 +80,8 @@
    // Turn off auto versioning for static-libs.
    if (context.GetPackageType() == PackageType::kStaticLib) {
      options_.no_auto_version = true;
---- a/base/tools/aapt2/cmd/Link.h
-+++ b/base/tools/aapt2/cmd/Link.h
+--- a/src/aapt2/cmd/Link.h
++++ b/src/aapt2/cmd/Link.h
 @@ -71,6 +71,7 @@
    bool do_not_compress_anything = false;
    std::unordered_set<std::string> extensions_to_not_compress;
@@ -99,8 +99,8 @@
      AddOptionalSwitch("--no-compress", "Do not compress any resources.",
          &options_.do_not_compress_anything);
      AddOptionalSwitch("--keep-raw-values", "Preserve raw attribute values in xml files.",
---- a/base/tools/aapt2/java/JavaClassGenerator.cpp
-+++ b/base/tools/aapt2/java/JavaClassGenerator.cpp
+--- a/src/aapt2/java/JavaClassGenerator.cpp
++++ b/src/aapt2/java/JavaClassGenerator.cpp
 @@ -58,6 +58,8 @@
      "true",       "false",        "null"};
  
@@ -110,8 +110,8 @@
    return sJavaIdentifiers.find(symbol) == sJavaIdentifiers.end();
  }
  
---- a/base/tools/aapt2/link/PrivateAttributeMover.cpp
-+++ b/base/tools/aapt2/link/PrivateAttributeMover.cpp
+--- a/src/aapt2/link/PrivateAttributeMover.cpp
++++ b/src/aapt2/link/PrivateAttributeMover.cpp
 @@ -81,7 +81,6 @@
      }
  

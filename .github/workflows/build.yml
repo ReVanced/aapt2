@@ -10,47 +10,37 @@ on:
         description: 'Reason'     
         required: false
         default: 'update package'
+
+env:
+  NDK_VERSION: "23.1.7779620"
+
 jobs:
   build:
+    name: build
     runs-on: ubuntu-latest
-    env:
-      ANDROID_HOME: "/opt/termux/android-sdk"
-      NDK: "/opt/termux/android-ndk"
-
-    strategy:
-      matrix:
-        target_arch: [i686]
-      fail-fast: false
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-
-      - name: Clone termux-packages repository
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v3
         with:
-          repository: termux/termux-packages
-          path: termux-packages
+          fetch-depth: 0
 
-      - name: Apply termux patches
-        run: |
-          cd termux-packages
-          git apply ../termux/*.patch
-
-      - name: Build aapt package
-        run: |
-          cd termux-packages
-          ./scripts/run-docker.sh ./build-package.sh -a ${{ matrix.target_arch }} aapt
-
-      - name: Prepare artifacts
-        run: |
-          cd termux-packages/output
-          for pkg in *.deb; do dpkg-deb -x $pkg extracted_packages; done
-          cd extracted_packages/data/data/com.termux/files/usr/
-          rm -r include/ share/ lib/pkgconfig/ lib/cmake/
-          find bin ! -name 'aapt2' -mindepth 1 -exec rm -f {} +
-
-      - name: Upload artifacts
-        uses: actions/upload-artifact@v3
+      - name: Set up JDK 1.8
+        uses: actions/setup-java@v3
         with:
-          name: aapt-${{ matrix.target_arch }}-${{ github.sha }}
-          path: termux-packages/output/extracted_packages/data/data/com.termux/files/usr/bin/
+          distribution: 'zulu'
+          java-version: '8'
+
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v2
+
+      - name: Setup Android NDK
+        run: sdkmanager "ndk;${{ env.NDK_VERSION }}"
+
+      - name: Build aapt2
+        env:
+          NDK_TOOLCHAIN: "${{ env.ANDROID_HOME }}/ndk/${{ env.NDK_VERSION }}"
+        run: ./build.sh
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: dist
+          path: sdk-tools-source/dist/

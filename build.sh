@@ -1,7 +1,18 @@
-cd termux-packages
-mv ../setup.sh .
-./scripts/run-docker.sh ./setup.sh
-for arch in "aarch64" "arm" "i686"; do
+echo "Downloading sources.."
+wget https://github.com/Lzhiyong/sdk-tools/releases/download/33.0.1/sdk-tools-source.zip -O sdk-tools-source.zip
+unzip sdk-tools-source.zip
+cd sdk-tools-source
+
+for arch in "aarch64" "arm" "x86"; do
   echo "Building aapt for $arch"
-  ./scripts/run-docker.sh ./build-package.sh -I -a $arch aapt
+  buildAapt $arch
 done
+
+function buildAapt() {
+  arch=$1
+  python3 build.py \
+    --ndk="$NDK_TOOLCHAIN" \
+    --arch "$arch" \
+    --build "dist/$arch" \
+    --target aapt2
+}

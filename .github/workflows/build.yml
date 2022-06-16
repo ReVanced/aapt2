@@ -39,7 +39,7 @@ jobs:
       - name: Build aapt2
         env:
           NDK_TOOLCHAIN: "${{ env.ANDROID_HOME }}/ndk/${{ env.NDK_VERSION }}/toolchains/llvm/prebuilt/linux-x86_64"
-        run: ./.github/scripts/build.sh
+        run: ./scripts/build.sh
 
       - uses: actions/upload-artifact@v3
         with:

@@ -40,6 +40,7 @@ jobs:
         env:
           NDK_TOOLCHAIN: "${{ env.ANDROID_HOME }}/ndk/${{ env.NDK_VERSION }}/toolchains/llvm/prebuilt/linux-x86_64"
         run: ls .
+          working-directory: .
 
       - uses: actions/upload-artifact@v3
         with:

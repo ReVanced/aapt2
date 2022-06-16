@@ -1,4 +1,4 @@
-name: Build aapt2
+name: Build aapt2 binary
 
 on:
   push:

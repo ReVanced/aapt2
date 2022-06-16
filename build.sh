@@ -1,12 +1,5 @@
 #!/bin/bash
 
-installDeps() {
-  echo "Installing dependencies..."
-  sudo apt-get update
-  sudo apt-get upgrade git -y
-  sudo apt-get install build-essential unzip nasm cmake ninja-build -y || exit 1
-}
-
 compileAapt2() {
   arch="$1"
   c_compiler=""
@@ -85,7 +78,6 @@ main() {
     exit 1
   fi
   echo "Building aapt2 executable..."
-  installDeps
   buildAapt2
   echo "All done!"
 }

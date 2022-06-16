@@ -12,7 +12,7 @@ on:
         default: 'update package'
 
 env:
-  NDK_VERSION: "23.1.7779620"
+  NDK_VERSION: "23.2.8568313"
 
 jobs:
   build:

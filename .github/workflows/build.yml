@@ -19,16 +19,16 @@ jobs:
     name: build
     runs-on: ubuntu-latest
     steps:
-      - name: Clone this repository
+      - name: Checkout
         uses: actions/checkout@v3
-    
-      - name: Clone build-tools
+
+      - name: Checkout build-tools
         uses: actions/checkout@v3
         with:
           repository: 'RohitVerma882/build-tools'
           path: 'build-tools'
-          
-      - name: Set up Azul Zulu OpenJDK 1.8
+
+      - name: Set up Java 1.8
         uses: actions/setup-java@v3
         with:
           distribution: 'zulu'
@@ -39,18 +39,18 @@ jobs:
 
       - name: Setup Android NDK
         run: sdkmanager "ndk;${{ env.NDK_VERSION }}"
-      
+ 
       - name: Install dependencies
         run: | 
           sudo apt-get update
           sudo apt-get upgrade git -y
           sudo apt-get install build-essential unzip nasm cmake ninja-build -y || exit 1
-      
+
       - name: Build aapt2
         env:
           NDK_TOOLCHAIN: "${{ env.ANDROID_HOME }}/ndk/${{ env.NDK_VERSION }}/toolchains/llvm/prebuilt/linux-x86_64"
         run: ./build.sh
-        
+
       - name: Upload artifacts
         uses: actions/upload-artifact@v3
         with:

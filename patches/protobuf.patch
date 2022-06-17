@@ -1,0 +1,14 @@
+Submodule src/protobuf contains modified content
+diff --git a/src/protobuf/cmake/CMakeLists.txt b/src/protobuf/cmake/CMakeLists.txt
+index ebc7b0c98..cda9ba109 100644
+--- a/src/protobuf/cmake/CMakeLists.txt
++++ b/src/protobuf/cmake/CMakeLists.txt
+@@ -29,7 +29,7 @@ else()
+ endif()
+ 
+ # Options
+-option(protobuf_BUILD_TESTS "Build tests" ON)
++option(protobuf_BUILD_TESTS "Build tests" OFF)
+ option(protobuf_BUILD_CONFORMANCE "Build conformance tests" OFF)
+ option(protobuf_BUILD_EXAMPLES "Build examples" OFF)
+ option(protobuf_BUILD_PROTOC_BINARIES "Build libprotoc and protoc compiler" ON)

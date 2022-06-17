@@ -1,0 +1,56 @@
+[submodule "src/expat"]
+	shallow = true
+	path = src/expat
+	url = https://android.googlesource.com/platform/external/expat.git
+[submodule "src/fmtlib"]
+	shallow = true
+	path = src/fmtlib
+	url = https://android.googlesource.com/platform/external/fmtlib.git
+[submodule "src/boringssl"]
+	shallow = true
+	path = src/boringssl
+	url = https://boringssl.googlesource.com/boringssl.git
+[submodule "src/incremental_delivery"]
+	shallow = true
+	path = src/incremental_delivery
+	url = https://android.googlesource.com/platform/system/incremental_delivery
+[submodule "src/libbase"]
+	shallow = true
+	path = src/libbase
+	url = https://android.googlesource.com/platform/system/libbase
+[submodule "src/libpng"]
+	shallow = true
+	path = src/libpng
+	url = https://android.googlesource.com/platform/external/libpng.git
+[submodule "src/pcre"]
+	shallow = true
+	path = src/pcre
+	url = https://android.googlesource.com/platform/external/pcre.git
+[submodule "src/zopfli"]
+	shallow = true
+	path = src/zopfli
+	url = https://android.googlesource.com/platform/external/zopfli
+[submodule "src/protobuf"]
+	shallow = true
+	path = src/protobuf
+	url = https://android.googlesource.com/platform/external/protobuf
+[submodule "src/logging"]
+	shallow = true
+	path = src/logging
+	url = https://android.googlesource.com/platform/system/logging.git
+[submodule "src/selinux"]
+	shallow = true
+	path = src/selinux
+	url = https://android.googlesource.com/platform/external/selinux.git
+[submodule "src/core"]
+	shallow = true
+	path = src/core
+	url = https://android.googlesource.com/platform/system/core.git
+[submodule "src/base"]
+	shallow = true
+	path = src/base
+	url = https://android.googlesource.com/platform/frameworks/base
+[submodule "src/libziparchive"]
+	shallow = true
+	path = src/libziparchive
+	url = https://android.googlesource.com/platform/system/libziparchive

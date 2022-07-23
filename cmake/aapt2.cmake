@@ -36,9 +36,31 @@ endif()
 
 set_source_files_properties(${AAPT2_PROTO_SRC} ${AAPT2_PROTO_HDRS}
                             PROPERTIES GENERATED TRUE)
+set(COMPILE_FLAGS
+  -Wno-unused-parameter
+  -Wno-missing-field-initializers
+  -fno-exceptions 
+  -fno-rtti)
 
-add_executable(
-  aapt2
+set(INCLUDES
+    ${SRC}/base/tools/aapt2
+    ${SRC}/protobuf/src
+    ${SRC}/logging/liblog/include
+    ${SRC}/expat/lib
+    ${SRC}/fmtlib/include
+    ${SRC}/libpng
+    ${SRC}/libbase/include
+    ${SRC}/base/libs/androidfw/include
+    ${SRC}/base/cmds/idmap2/libidmap2_policies/include
+    ${SRC}/core/libsystem/include
+    ${SRC}/core/libutils/include
+    ${SRC}/boringssl/third_party/googletest/include
+    ${SRC}/libziparchive/include 
+    ${SRC}/libbuildversion/include
+    ${SRC}/incremental_delivery/incfs/util/include 
+    ${SRC}/incremental_delivery/incfs/kernel-headers)
+
+set(TOOL_SOURCE
   ${SRC}/base/tools/aapt2/Main.cpp
   ${SRC}/base/tools/aapt2/cmd/Command.cpp
   ${SRC}/base/tools/aapt2/cmd/Compile.cpp
@@ -47,8 +69,9 @@ add_executable(
   ${SRC}/base/tools/aapt2/cmd/Dump.cpp
   ${SRC}/base/tools/aapt2/cmd/Link.cpp
   ${SRC}/base/tools/aapt2/cmd/Optimize.cpp
-  ${SRC}/base/tools/aapt2/cmd/Util.cpp
+  ${SRC}/base/tools/aapt2/cmd/Util.cpp)
 
+add_library(libaapt2 STATIC
   ${SRC}/base/tools/aapt2/compile/IdAssigner.cpp
   ${SRC}/base/tools/aapt2/compile/InlineXmlFormatParser.cpp
   ${SRC}/base/tools/aapt2/compile/NinePatch.cpp
@@ -128,25 +151,18 @@ add_executable(
   ${AAPT2_PROTO_SRC}
   ${AAPT2_PROTO_HDRS})
 
-target_include_directories(aapt2 PUBLIC 
-  ${SRC}/base/tools/aapt2
-  ${SRC}/protobuf/src
-  ${SRC}/logging/liblog/include
-  ${SRC}/expat/lib
-  ${SRC}/fmtlib/include
-  ${SRC}/libpng
-  ${SRC}/libbase/include
-  ${SRC}/base/libs/androidfw/include
-  ${SRC}/base/cmds/idmap2/libidmap2_policies/include
-  ${SRC}/core/libsystem/include
-  ${SRC}/core/libutils/include
-  ${SRC}/libziparchive/include
-  ${SRC}/boringssl/third_party/googletest/include
-  ${SRC}/libbuildversion/include
-  ${SRC}/incremental_delivery/incfs/util/include
-  ${SRC}/incremental_delivery/incfs/kernel-headers)
+  target_include_directories(libaapt2 PRIVATE ${INCLUDES})
+  target_compile_options(libaapt2 PRIVATE ${COMPILE_FLAGS})
+
+  add_executable(aapt2
+  ${SRC}/base/tools/aapt2/Main.cpp
+  ${TOOL_SOURCE})
+
+  target_include_directories(aapt2 PRIVATE ${INCLUDES})
+  target_compile_options(aapt2 PRIVATE ${COMPILE_FLAGS})
 
   target_link_libraries(aapt2
+  libaapt2
   libandroidfw 
   libincfs
   libselinux

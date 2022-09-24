@@ -12,49 +12,6 @@ index cae2d0bc16b3..13c5f8fc84e8 100644
  #include <binder/TextOutput.h>
  
  #endif
-diff --git a/src/base/libs/androidfw/include/androidfw/StringPiece.h b/src/base/libs/androidfw/include/androidfw/StringPiece.h
-index 921877dc4982..27e27e1c2b94 100644
---- a/src/base/libs/androidfw/include/androidfw/StringPiece.h
-+++ b/src/base/libs/androidfw/include/androidfw/StringPiece.h
-@@ -75,6 +75,11 @@ class BasicStringPiece {
-   bool operator>(const BasicStringPiece<TChar>& rhs) const;
-   bool operator==(const BasicStringPiece<TChar>& rhs) const;
-   bool operator!=(const BasicStringPiece<TChar>& rhs) const;
-+  // for std::basic_string
-+  bool operator<(const std::basic_string<TChar>& rhs) const;
-+  bool operator>(const std::basic_string<TChar>& rhs) const;
-+  bool operator==(const std::basic_string<TChar>& rhs) const;
-+  bool operator!=(const std::basic_string<TChar>& rhs) const;
- 
-   const_iterator begin() const;
-   const_iterator end() const;
-@@ -256,6 +261,26 @@ inline bool BasicStringPiece<TChar>::operator!=(const BasicStringPiece<TChar>& r
-   return compare(rhs) != 0;
- }
- 
-+template <typename TChar>
-+inline bool BasicStringPiece<TChar>::operator<(const std::basic_string<TChar>& rhs) const {
-+    return compare(BasicStringPiece(rhs)) < 0;
-+}
-+
-+template <typename TChar>
-+inline bool BasicStringPiece<TChar>::operator>(const std::basic_string<TChar>& rhs) const {
-+    return compare(BasicStringPiece(rhs)) > 0;
-+}
-+
-+template <typename TChar>
-+inline bool BasicStringPiece<TChar>::operator==(const std::basic_string<TChar>& rhs) const {
-+    return compare(BasicStringPiece(rhs)) == 0;
-+}
-+
-+template <typename TChar>
-+inline bool BasicStringPiece<TChar>::operator!=(const std::basic_string<TChar>& rhs) const{
-+    return compare(BasicStringPiece(rhs)) != 0;
-+}
-+
- template <typename TChar>
- inline typename BasicStringPiece<TChar>::const_iterator BasicStringPiece<TChar>::begin() const {
-   return data_;
 diff --git a/src/base/tools/aapt2/ResourceTable.cpp b/src/base/tools/aapt2/ResourceTable.cpp
 index 8ab1493c6ab3..3a855f0f6866 100644
 --- a/src/base/tools/aapt2/ResourceTable.cpp

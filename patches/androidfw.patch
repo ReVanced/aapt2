@@ -12,6 +12,19 @@ index cae2d0bc16b3..13c5f8fc84e8 100644
  #include <binder/TextOutput.h>
  
  #endif
+diff --git a/src/base/libs/androidfw/include/androidfw/ResourceTypes.h b/libs/androidfw/include/androidfw/ResourceTypes.h
+index 3d66244646d5..2d27c34a9154 100644
+--- a/src/base/libs/androidfw/include/androidfw/ResourceTypes.h
++++ b/src/base/libs/androidfw/include/androidfw/ResourceTypes.h
+@@ -500,7 +500,7 @@ struct ResStringPool_span
+
+     // The range of characters in the string that this span applies to.
+     uint32_t firstChar, lastChar;
+-};
++} __attribute__((__packed__, aligned(1)));
+
+ /**
+  * Convenience class for accessing data in a ResStringPool resource.
 diff --git a/src/base/libs/androidfw/include/androidfw/StringPiece.h b/src/base/libs/androidfw/include/androidfw/StringPiece.h
 index 921877dc4982..27e27e1c2b94 100644
 --- a/src/base/libs/androidfw/include/androidfw/StringPiece.h

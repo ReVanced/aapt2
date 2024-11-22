@@ -16,6 +16,9 @@ jobs:
   build:
     name: build
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      attestations: write
     strategy:
       matrix:
         target_arch: [x86_64, x86, arm64-v8a, armeabi-v7a]
@@ -34,6 +37,12 @@ jobs:
       - run: ./build.sh ${{ matrix.target_arch }}
         env:
           NDK_TOOLCHAIN: ${{ steps.setup-ndk.outputs.ndk-path }}/toolchains/llvm/prebuilt/linux-x86_64
+
+      - name: Attest build provenance
+        uses: actions/attest-build-provenance@v1
+        with:
+          subject-name: dist-${{ matrix.target_arch }}
+          subject-path: dist
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v3

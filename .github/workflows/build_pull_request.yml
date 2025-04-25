@@ -1,0 +1,52 @@
+name: Build pull request
+
+on:
+  workflow_dispatch:
+  pull_request:
+    branches:
+      - dev
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        target_arch: [x86_64, x86, arm64-v8a, armeabi-v7a]
+      fail-fast: false
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          submodules: 'true'
+
+      - name: Setup NDK
+        uses: nttld/setup-ndk@v1
+        id: setup-ndk
+        with:
+          ndk-version: r27c
+          add-to-path: false
+
+      - name: Patch
+        run: bash ./patch.sh
+
+      - name: Compile protoc
+        run: |
+          mkdir -p src/protobuf/build
+          pushd src/protobuf/build
+          cmake -GNinja -Dprotobuf_BUILD_TESTS=OFF ..
+          ninja -j$(nproc --all)
+          popd
+
+      - name: Compile aapt2
+        env:
+          ANDROID_NDK_HOME: ${{ steps.setup-ndk.outputs.ndk-path }}
+          PROTOC_PATH: "/${{ github.workspace }}/src/protobuf/build/protoc"
+        run: bash ./build.sh ${{ matrix.target_arch }}
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: aapt2-${{ matrix.target_arch }}
+          path: ${{ github.workspace }}/build/bin/aapt2-*
+          if-no-files-found: error

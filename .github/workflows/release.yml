@@ -1,0 +1,101 @@
+name: Release
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+      - dev
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        target_arch: [x86_64, x86, arm64-v8a, armeabi-v7a]
+      fail-fast: false
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          submodules: 'true'
+
+      - name: Setup NDK
+        uses: nttld/setup-ndk@v1
+        id: setup-ndk
+        with:
+          ndk-version: r27c
+          add-to-path: false
+
+      - name: Patch
+        run: bash ./patch.sh
+
+      - name: Compile protoc
+        run: |
+          mkdir -p src/protobuf/build
+          pushd src/protobuf/build
+          cmake -GNinja -Dprotobuf_BUILD_TESTS=OFF ..
+          ninja -j$(nproc --all)
+          popd
+
+      - name: Compile aapt2
+        env:
+          ANDROID_NDK_HOME: ${{ steps.setup-ndk.outputs.ndk-path }}
+          PROTOC_PATH: "/${{ github.workspace }}/src/protobuf/build/protoc"
+        run: bash ./build.sh ${{ matrix.target_arch }}
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: aapt2-${{ matrix.target_arch }}
+          path: ${{ github.workspace }}/build/bin/aapt2-*
+          if-no-files-found: error
+          
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: write
+      attestations: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          # Make sure the release step uses its own credentials:
+          # https://github.com/cycjimmy/semantic-release-action#private-packages
+          persist-credentials: false
+
+      - name: Download all built artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: ./artifacts
+          merge-multiple: true
+
+      - name: Generate attestations
+        if: ${{ steps.release.outputs.release_created }}
+        uses: actions/attest-build-provenance@v2
+        with:
+          subject-path: ./artifacts/aapt2-*
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "lts/*"
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Import GPG key
+        uses: crazy-max/ghaction-import-gpg@v6
+        with:
+          gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
+          passphrase: ${{ secrets.GPG_PASSPHRASE }}
+          fingerprint: ${{ vars.GPG_FINGERPRINT }}
+
+      - name: Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: npm exec semantic-release

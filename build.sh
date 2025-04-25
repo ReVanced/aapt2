@@ -1,101 +1,70 @@
 #!/bin/bash
+set -e
 
-# Check for NDK_TOOLCHAIN environment variable and abort if it is not set.
-if [[ -z "${NDK_TOOLCHAIN}" ]]; then
-    echo "Please specify the Android NDK environment variable \"NDK_TOOLCHAIN\"."
+# Define the targets.
+API="30"
+ALLOWED=("armeabi-v7a" "arm64-v8a" "x86" "x86_64")
+
+
+help() {
+    script_name=$(basename "$0")
+    echo "Usage: $script_name <architecture>"
+    echo
+    echo "Required:"
+    echo "  - ANDROID_NDK environment variable must be set"
+    echo "  - PROTOC_PATH environment variable must be set"
+    echo "  - One argument must be provided: the target architecture (armeabi-v7a, arm64-v8a, x86, x86_64)"
+    echo
+    echo "Example:"
+    echo "  ANDROID_NDK=/path/to/ndk PROTOC_PATH=/path/to/protoc $script_name arm64-v8a"
+}
+
+# Check for ANDROID_NDK environment variable and abort if it is not set.
+if [[ -z "${ANDROID_NDK}" ]]; then
+    echo "Error: Please specify the Android NDK environment variable \"ANDROID_NDK\"."
+    help
     exit 1
 fi
 
-# Prerequisites.
-sudo apt install \
-golang \
-ninja-build \
-autogen \
-autoconf \
-libtool \
-build-essential \
--y || exit 1
+# Check if PROTOC_PATH is missing or if the file doesn't exist
+if [[ -z "$PROTOC_PATH" || ! -f "$PROTOC_PATH" ]]; then
+    echo "Error: PROTOC_PATH is missing in env or file does not exist."
+    help
+    exit 1
+fi
 
-root="$(pwd)"
+architecture="$1"
 
-# Install protobuf compiler.
-cd "src/protobuf" || exit 1
-./autogen.sh
-./configure
-make -j"$(nproc)"
-sudo make install
-sudo ldconfig
+if [[ ! " ${ALLOWED[@]} " =~ " $architecture " ]]; then
+    echo "Error: '$architecture' is not in the allowed archs"
+    help
+    exit 1
+fi
 
-# Go back.
-cd "$root" || exit 1
-
-# Apply patches.
-git apply patches/incremental_delivery.patch --whitespace=fix
-git apply patches/libpng.patch --whitespace=fix
-git apply patches/selinux.patch  --whitespace=fix
-git apply patches/protobuf.patch --whitespace=fix
-git apply patches/aapt2.patch --whitespace=fix
-git apply patches/androidfw.patch --whitespace=fix
-git apply patches/boringssl.patch --whitespace=fix
-
-# Define all the compilers, libraries and targets.
-api="30"
-architecture=$1
-declare -A compilers=(
-    [x86_64]=x86_64-linux-android
-    [x86]=i686-linux-android
-    [arm64-v8a]=aarch64-linux-android
-    [armeabi-v7a]=armv7a-linux-androideabi
-)
-declare -A lib_arch=(
-    [x86_64]=x86_64-linux-android
-    [x86]=i686-linux-android
-    [arm64-v8a]=aarch64-linux-android
-    [armeabi-v7a]=arm-linux-androideabi
-)
-declare -A target_abi=(
-    [x86_64]=x86_64
-    [x86]=x86
-    [arm64-v8a]=aarch64
-    [armeabi-v7a]=arm
-)
-
-build_directory="build"
-aapt_binary_path="$root/$build_directory/cmake/aapt2"
-# Build all the target architectures.
-bin_directory="$root/dist/$architecture"
-
-# switch to cmake build directory.
-[[ -d dir ]] || mkdir -p $build_directory && cd $build_directory || exit 1
-
-# Define the compiler architecture and compiler.
-compiler_arch="${compilers[$architecture]}"
-c_compiler="$compiler_arch$api-clang"
-cxx_compiler="${c_compiler}++"
-
-# Copy libc.a to libpthread.a.
-lib_path="$NDK_TOOLCHAIN/sysroot/usr/lib/${lib_arch[$architecture]}/$api/"
-cp -n "$lib_path/libc.a"  "$lib_path/libpthread.a"
+NDK_TOOLCHAIN="$ANDROID_NDK/build/cmake/android.toolchain.cmake"
 
 # Run make for the target architecture.
-compiler_bin_directory="$NDK_TOOLCHAIN/bin/"
 cmake -GNinja \
--DCMAKE_C_COMPILER="$compiler_bin_directory$c_compiler" \
--DCMAKE_CXX_COMPILER="$compiler_bin_directory$cxx_compiler" \
--DCMAKE_BUILD_WITH_INSTALL_RPATH=True \
--DCMAKE_BUILD_TYPE=Release \
--DANDROID_ABI="$architecture" \
--DTARGET_ABI="${target_abi[$architecture]}" \
--DPROTOC_PATH="/usr/local/bin/protoc" \
--DCMAKE_SYSROOT="$NDK_TOOLCHAIN/sysroot" \
-.. || exit 1
+  -B "build" \
+  -DANDROID_NDK="$ANDROID_NDK" \
+  -DCMAKE_TOOLCHAIN_FILE="$NDK_TOOLCHAIN" \
+  -DANDROID_PLATFORM="android-$API" \
+  -DCMAKE_ANDROID_ARCH_ABI="$architecture" \
+  -DANDROID_ABI="$architecture" \
+  -DPROTOC_PATH="$PROTOC_PATH" \
+  -DCMAKE_SYSTEM_NAME=Android \
+  -DANDROID_ARM_NEON=ON \
+  -DCMAKE_BUILD_TYPE=Release \
+  -Dprotobuf_BUILD_TESTS=OFF \
+  -DABSL_PROPAGATE_CXX_STD=ON \
+  -Dprotobuf_BUILD_SHARED_LIBS=OFF \
+  -Dprotobuf_BUILD_PROTOC_BINARIES=OFF \
+  -Dprotobuf_BUILD_LIBPROTOC=ON \
+  -DPNG_SHARED=OFF \
+  -DZLIB_USE_STATIC_LIBS=ON
+  
+# Build the binary
+ninja -C build aapt2
 
-ninja || exit 1
-
-"$NDK_TOOLCHAIN/bin/llvm-strip" --strip-unneeded  "$aapt_binary_path"
-
-# Create bin directory.
-mkdir -p "$bin_directory"
-
-# Move aapt2 to bin directory.
-mv "$aapt_binary_path" "$bin_directory"
+# Remove debug symbol
+"$ANDROID_NDK/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-strip" --strip-unneeded  "build/bin/aapt2-$architecture"

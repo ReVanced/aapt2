@@ -1,6 +1,9 @@
 cmake_minimum_required(VERSION 3.14.2)
 project(sdk-tools)
 
+set(CMAKE_C_STANDARD 11)
+set(CMAKE_CXX_STANDARD 20)
+
 if(ANDROID_ABI STREQUAL "arm64-v8a" OR ANDROID_ABI STREQUAL "armeabi-v7a")
     enable_language(ASM)
 elseif(ANDROID_ABI STREQUAL "x86_64" OR ANDROID_ABI STREQUAL "x86")
@@ -17,7 +20,7 @@ set(CMAKE_EXE_LINKER_FLAGS "-static")
 
 # platform tools version
 # see the patches/other/platform_tools_version.h
-set(TOOLS_VERSION 33.0.1)
+set(TOOLS_VERSION 35.0.2)
 set(SRC ${PROJECT_SOURCE_DIR}/src)
 
 # 64-bit off_t for lseek.
@@ -38,9 +41,12 @@ endif()
 add_subdirectory(src/boringssl EXCLUDE_FROM_ALL)
 add_subdirectory(src/fmtlib EXCLUDE_FROM_ALL)
 add_subdirectory(src/pcre EXCLUDE_FROM_ALL)
-add_subdirectory(src/expat EXCLUDE_FROM_ALL)
-add_subdirectory(src/zopfli EXCLUDE_FROM_ALL)
-add_subdirectory(src/protobuf/cmake EXCLUDE_FROM_ALL)
+add_subdirectory(src/libpng EXCLUDE_FROM_ALL)
+add_subdirectory(src/jsoncpp EXCLUDE_FROM_ALL)
+add_subdirectory(src/expat/expat EXCLUDE_FROM_ALL)
+add_subdirectory(src/protobuf EXCLUDE_FROM_ALL)
+add_subdirectory(src/googletest EXCLUDE_FROM_ALL)
 
 # building sdk-tools
-add_subdirectory(cmake)
+add_subdirectory(lib)
+add_subdirectory(build-tools)

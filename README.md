@@ -4,7 +4,8 @@
 
 This repository contains a workflow to build the aapt2 binaries for Android.
 
-# Build aapt2
+# Build
+
 ## Fetch submodules
 ```bash
 git submodule update --init --recursive --depth 1

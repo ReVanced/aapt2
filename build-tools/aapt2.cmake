@@ -9,7 +9,7 @@ foreach(proto ${PROTO_FILES})
     get_filename_component(FIL_WE ${proto} NAME_WE)
 
     if(DEFINED PROTOC_PATH)
-        # execute the protoc command to generate the proto targets for host arch
+        # Execute the protoc command to generate the proto targets for host arch.
         execute_process(
             COMMAND ${PROTOC_COMPILER} ${proto}
             --proto_path=${AAPT2_PROTO_DIR}

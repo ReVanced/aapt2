@@ -81,7 +81,7 @@ set(TOOL_SOURCE
     ${SRC}/base/tools/aapt2/cmd/Util.cpp
     )
 
-# build the host static library: aapt2
+# Build the host static library: aapt2
 add_library(libaapt2 STATIC
     ${SRC}/base/tools/aapt2/compile/IdAssigner.cpp
     ${SRC}/base/tools/aapt2/compile/InlineXmlFormatParser.cpp
@@ -162,7 +162,7 @@ add_library(libaapt2 STATIC
 target_include_directories(libaapt2 PRIVATE ${INCLUDES})
 target_compile_options(libaapt2 PRIVATE ${COMPILE_FLAGS})
 
-# build the executable file aapt2
+# Build the executable file aapt2.
 add_executable(aapt2
     ${SRC}/base/tools/aapt2/Main.cpp
     ${TOOL_SOURCE}

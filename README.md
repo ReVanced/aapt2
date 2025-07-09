@@ -19,10 +19,10 @@ bash ./patch.sh
 ## Build protoc
 ```bash
 mkdir -p src/protobuf/build
-pushd src/protobuf/build
+cd src/protobuf/build
 cmake -GNinja -Dprotobuf_BUILD_TESTS=OFF ..
 ninja -j$(nproc --all)
-popd
+cd -
 ```
 
 ## Build the binary

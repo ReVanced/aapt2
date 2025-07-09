@@ -3,7 +3,7 @@ set -e
 
 # Define the targets.
 API="30"
-ALLOWED=("armeabi-v7a" "arm64-v8a" "x86" "x86_64")
+ARCHITECTURES=("armeabi-v7a" "arm64-v8a" "x86" "x86_64")
 
 
 help() {
@@ -35,7 +35,7 @@ fi
 
 architecture="$1"
 
-if [[ ! " ${ALLOWED[@]} " =~ " $architecture " ]]; then
+if [[ ! " ${ARCHITECTURES[@]} " =~ " $architecture " ]]; then
     echo "Error: '$architecture' is not in the allowed archs"
     help
     exit 1

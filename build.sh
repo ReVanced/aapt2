@@ -5,7 +5,6 @@ set -e
 API="30"
 ARCHITECTURES=("armeabi-v7a" "arm64-v8a" "x86" "x86_64")
 
-
 help() {
     script_name=$(basename "$0")
     echo "Usage: $script_name <architecture>"

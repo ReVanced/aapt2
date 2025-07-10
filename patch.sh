@@ -1,10 +1,10 @@
 #!/bin/bash
 
 mkdir -p "src/incremental_delivery/sysprop/include/"
-cp "patches/misc/IncrementalProperties.sysprop.h" "src/incremental_delivery/sysprop/include/"
-cp "patches/misc/IncrementalProperties.sysprop.cpp" "src/incremental_delivery/sysprop/"
+cp "misc/IncrementalProperties.sysprop.h" "src/incremental_delivery/sysprop/include/"
+cp "misc/IncrementalProperties.sysprop.cpp" "src/incremental_delivery/sysprop/"
 
-cp "patches/misc/platform_tools_version.h" "src/soong/cc/libbuildversion/include"
+cp "misc/platform_tools_version.h" "src/soong/cc/libbuildversion/include"
 
 # As our sources are in src and not in frameworks/base/tools/aapt2 we need to change the inclusions
 configPattern="s#frameworks/base/tools/aapt2/Configuration.proto#Configuration.proto#g"

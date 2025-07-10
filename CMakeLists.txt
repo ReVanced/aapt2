@@ -19,7 +19,7 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fcolor-diagnostics -fPIC -Wno-attribute
 set(CMAKE_EXE_LINKER_FLAGS "-static")
 
 # platform tools version
-# see the patches/misc/platform_tools_version.h
+# see the misc/platform_tools_version.h
 set(TOOLS_VERSION 35.0.2)
 set(SRC ${PROJECT_SOURCE_DIR}/src)
 

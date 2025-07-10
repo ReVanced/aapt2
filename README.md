@@ -34,6 +34,6 @@ ANDROID_NDK="$HOME/Android/Sdk/ndk/" PROTOC_PATH="$PWD/src/protobuf/build/protoc
 
 # Credits
 
-This repository is based on the works of:
+This repository is made with the help of:
 - [lzhiyong](https://github.com/lzhiyong/android-sdk-tools)
 - [iBotPeaches](https://github.com/aosp-mirror/platform_frameworks_base/compare/main...iBotPeaches:platform_frameworks_base:apktool_14.0.0) for [apktool_ibotpeaches.patch](patches/apktool_ibotpeaches.patch])

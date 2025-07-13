@@ -45,7 +45,7 @@ set_source_files_properties(${AAPT2_PROTO_SRC} ${AAPT2_PROTO_HDRS}
 set(COMPILE_FLAGS
     -Wno-unused-parameter
     -Wno-missing-field-initializers
-    -fno-exceptions 
+    -fno-exceptions
     -fno-rtti)
 
 set(INCLUDES

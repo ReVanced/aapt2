@@ -61,7 +61,7 @@ cmake -GNinja \
   -Dprotobuf_BUILD_LIBPROTOC=ON \
   -DPNG_SHARED=OFF \
   -DZLIB_USE_STATIC_LIBS=ON
-  
+
 # Build the binary
 ninja -C build aapt2
 

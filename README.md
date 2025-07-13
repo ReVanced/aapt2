@@ -1,6 +1,6 @@
 # Aapt2 package build workflow
 
-[![build workflow](https://github.com/revanced/aapt2/actions/workflows/build.yml/badge.svg)](https://github.com/revanced/aapt2/actions/workflows/build.yml)
+[![build workflow](../../actions/workflows/release.yml/badge.svg)](../../actions/workflows/release.yml)
 
 This repository contains a workflow to build the aapt2 binaries for Android.
 
@@ -11,25 +11,29 @@ This repository contains a workflow to build the aapt2 binaries for Android.
 git submodule update --init --recursive --depth 1
 ```
 
+## Protoc dependency
+
+`protoc` needs to be installed, the current required version is 21.12. Install it with:
+```bash
+wget https://github.com/protocolbuffers/protobuf/releases/download/v21.12/protoc-21.12-linux-x86_64.zip
+sudo unzip -p protoc-*.zip bin/protoc -d /usr/local/bin/
+```
+
+The required version can be identified with :
+```bash
+grep PROTOC_VERSION src/protobuf/protobuf_version.bzl
+```
+
 ## Apply patch
 ```bash
 bash ./patch.sh
-```
-
-## Build protoc
-```bash
-mkdir -p src/protobuf/build
-cd src/protobuf/build
-cmake -GNinja -Dprotobuf_BUILD_TESTS=OFF ..
-ninja -j$(nproc --all)
-cd -
 ```
 
 ## Build the binary
 
 Supported arch are 'x86_64', 'x86', 'arm64-v8a' & 'armeabi-v7a'
 ```bash
-ANDROID_NDK="$HOME/Android/Sdk/ndk/" PROTOC_PATH="$PWD/src/protobuf/build/protoc" bash ./build.sh arm64-v8a  # Build output in build/$arch/bin/aapt-*
+ANDROID_NDK="$HOME/Android/Sdk/ndk/" bash ./build.sh arm64-v8a  # Build output in build/bin/aapt-*
 ```
 
 # Credits

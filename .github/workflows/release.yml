@@ -42,7 +42,7 @@ jobs:
       - name: Compile aapt2
         env:
           ANDROID_NDK_HOME: ${{ steps.setup-ndk.outputs.ndk-path }}
-          PROTOC_PATH: "/${{ github.workspace }}/src/protobuf/build/protoc"
+          PROTOC_PATH: "${{ github.workspace }}/src/protobuf/build/protoc"
         run: bash ./build.sh ${{ matrix.target_arch }}
 
       - name: Upload artifacts
@@ -70,14 +70,14 @@ jobs:
       - name: Download all built artifacts
         uses: actions/download-artifact@v4
         with:
-          path: ./artifacts
+          path: ${{ github.workspace }}/build/bin/
           merge-multiple: true
 
       - name: Generate attestations
         if: ${{ steps.release.outputs.release_created }}
         uses: actions/attest-build-provenance@v2
         with:
-          subject-path: ./artifacts/aapt2-*
+          subject-path: ${{ github.workspace }}/build/bin/aapt2-*
 
       - name: Setup Node.js
         uses: actions/setup-node@v4

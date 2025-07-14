@@ -5,24 +5,29 @@ set(AAPT2_PROTO_DIR ${SRC}/base/tools/aapt2)
 
 file(GLOB_RECURSE PROTO_FILES ${AAPT2_PROTO_DIR}/*.proto)
 
+find_package(Protobuf)
+
+if(NOT EXISTS ${Protobuf_PROTOC_EXECUTABLE})
+    message(FATAL_ERROR "Invalid protoc: ${Protobuf_PROTOC_EXECUTABLE}")
+endif()
+
+
 foreach(proto ${PROTO_FILES})
     get_filename_component(FIL_WE ${proto} NAME_WE)
 
-    if(DEFINED PROTOC_PATH)
-        # Execute the protoc command to generate the proto targets for host arch.
-        execute_process(
-            COMMAND ${PROTOC_COMPILER} ${proto}
-            --proto_path=${AAPT2_PROTO_DIR}
-            --cpp_out=${AAPT2_PROTO_DIR}
-            COMMAND_ECHO STDOUT
-            RESULT_VARIABLE RESULT
-            WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
-        )
+    # Execute the protoc command to generate the proto targets for host arch.
+    execute_process(
+        COMMAND ${Protobuf_PROTOC_EXECUTABLE} ${proto}
+        --proto_path=${AAPT2_PROTO_DIR}
+        --cpp_out=${AAPT2_PROTO_DIR}
+        COMMAND_ECHO STDOUT
+        RESULT_VARIABLE RESULT
+        WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
+    )
 
-        if(RESULT EQUAL 0)
-            message(STATUS "generate cpp file ${TARGET_CPP_FILE}")
-            message(STATUS "generate head file ${TARGET_HEAD_FILE}")
-        endif()
+    if(RESULT EQUAL 0)
+        message(STATUS "generate cpp file ${TARGET_CPP_FILE}")
+        message(STATUS "generate head file ${TARGET_HEAD_FILE}")
     endif()
 
     set(TARGET_CPP_FILE "${AAPT2_PROTO_DIR}/${FIL_WE}.pb.cc")
@@ -34,10 +39,9 @@ foreach(proto ${PROTO_FILES})
     endif()
 endforeach()
 
-if(DEFINED PROTOC_PATH)
-    set_source_files_properties(${AAPT2_PROTO_SRC} PROPERTIES GENERATED TRUE)
-    set_source_files_properties(${AAPT2_PROTO_HDRS} PROPERTIES GENERATED TRUE)
-endif()
+set_source_files_properties(${AAPT2_PROTO_SRC} PROPERTIES GENERATED TRUE)
+set_source_files_properties(${AAPT2_PROTO_HDRS} PROPERTIES GENERATED TRUE)
+
 set_source_files_properties(${AAPT2_PROTO_SRC} ${AAPT2_PROTO_HDRS}
                             PROPERTIES GENERATED TRUE)
 # ========================= aapt2 proto ============================

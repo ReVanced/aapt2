@@ -28,21 +28,17 @@ jobs:
           ndk-version: r27c
           add-to-path: false
 
+      - name: Get protoc
+        run: |
+          wget https://github.com/protocolbuffers/protobuf/releases/download/v21.12/protoc-21.12-linux-x86_64.zip
+          sudo unzip -p protoc-*.zip bin/protoc -d /usr/local/bin/
+
       - name: Patch
         run: bash ./patch.sh
-
-      - name: Compile protoc
-        run: |
-          mkdir -p src/protobuf/build
-          pushd src/protobuf/build
-          cmake -GNinja -Dprotobuf_BUILD_TESTS=OFF ..
-          ninja -j$(nproc --all)
-          popd
 
       - name: Compile aapt2
         env:
           ANDROID_NDK_HOME: ${{ steps.setup-ndk.outputs.ndk-path }}
-          PROTOC_PATH: "${{ github.workspace }}/src/protobuf/build/protoc"
         run: bash ./build.sh ${{ matrix.target_arch }}
 
       - name: Upload artifacts
@@ -51,7 +47,7 @@ jobs:
           name: aapt2-${{ matrix.target_arch }}
           path: ${{ github.workspace }}/build/bin/aapt2-*
           if-no-files-found: error
-          
+
   release:
     needs: build
     runs-on: ubuntu-latest

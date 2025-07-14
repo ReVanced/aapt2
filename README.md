@@ -4,6 +4,9 @@
 
 This repository contains a workflow to build the aapt2 binaries for Android.
 
+Currently, the submodules are pinned to platform-tools 35.0.2 of AOSP source code. `src/base` example:
+https://android.googlesource.com/platform/frameworks/base/+/refs/tags/platform-tools-35.0.2
+
 # Build
 
 ## Fetch submodules

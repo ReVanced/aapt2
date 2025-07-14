@@ -25,13 +25,6 @@ if [[ -z "${ANDROID_NDK}" ]]; then
     exit 1
 fi
 
-# Check if PROTOC_PATH is missing or if the file doesn't exist
-if [[ -z "$PROTOC_PATH" || ! -f "$PROTOC_PATH" ]]; then
-    echo "Error: PROTOC_PATH is missing in env or file does not exist."
-    help
-    exit 1
-fi
-
 architecture="$1"
 
 if [[ ! " ${ARCHITECTURES[@]} " =~ " $architecture " ]]; then
@@ -50,15 +43,9 @@ cmake -GNinja \
   -DANDROID_PLATFORM="android-$API" \
   -DCMAKE_ANDROID_ARCH_ABI="$architecture" \
   -DANDROID_ABI="$architecture" \
-  -DPROTOC_PATH="$PROTOC_PATH" \
   -DCMAKE_SYSTEM_NAME=Android \
   -DANDROID_ARM_NEON=ON \
   -DCMAKE_BUILD_TYPE=Release \
-  -Dprotobuf_BUILD_TESTS=OFF \
-  -DABSL_PROPAGATE_CXX_STD=ON \
-  -Dprotobuf_BUILD_SHARED_LIBS=OFF \
-  -Dprotobuf_BUILD_PROTOC_BINARIES=OFF \
-  -Dprotobuf_BUILD_LIBPROTOC=ON \
   -DPNG_SHARED=OFF \
   -DZLIB_USE_STATIC_LIBS=ON
 

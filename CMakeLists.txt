@@ -26,16 +26,11 @@ set(SRC ${PROJECT_SOURCE_DIR}/src)
 # 64-bit off_t for lseek.
 add_definitions(-D_FILE_OFFSET_BITS=64)
 
-if(NOT DEFINED PROTOC_PATH)
-    message(FATAL_ERROR "PROTOC_PATH undefined, please make sure to build and install protoc from the cloned submodule." )
-endif()
-
-set(PROTOC_COMPILER ${PROTOC_PATH})
-    
-if(NOT EXISTS ${PROTOC_COMPILER})
-    unset(PROTOC_PATH CACHE)
-    message(FATAL_ERROR "Invalid protoc: ${PROTOC_COMPILER}, please check if the path is correct")
-endif()
+# protoc options
+set(protobuf_BUILD_TESTS OFF CACHE BOOL "" FORCE)
+set(protobuf_BUILD_SHARED_LIBS OFF CACHE BOOL "" FORCE)
+set(protobuf_BUILD_PROTOC_BINARIES OFF CACHE BOOL "" FORCE)
+set(protobuf_BUILD_LIBPROTOC ON CACHE BOOL "" FORCE)
 
 # thrid-party libraries
 add_subdirectory(src/boringssl EXCLUDE_FROM_ALL)

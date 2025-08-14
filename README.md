@@ -9,9 +9,9 @@ https://android.googlesource.com/platform/frameworks/base/+/refs/tags/platform-t
 
 # Build
 
-## Fetch submodules
+## Clone with submodules
 ```bash
-git submodule update --init --recursive --depth 1
+git clone --recurse-submodules --shallow-submodules --depth 1 https://github.com/ReVanced/aapt2
 ```
 
 ## Protoc dependency

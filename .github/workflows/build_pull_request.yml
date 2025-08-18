@@ -33,7 +33,7 @@ jobs:
           sudo unzip -j protoc-*.zip bin/protoc -d /usr/local/bin/
 
       - name: Patch
-        run: bash ./patch.sh
+        run: ./patch.sh
 
       - name: Compile aapt2
         env:

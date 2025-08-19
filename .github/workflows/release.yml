@@ -38,7 +38,7 @@ jobs:
 
       - name: Build
         env:
-          ANDROID_NDK_HOME: ${{ steps.setup-ndk.outputs.ndk-path }}
+          ANDROID_NDK: ${{ steps.setup-ndk.outputs.ndk-path }}
         run: bash ./build.sh ${{ matrix.target_arch }}
 
       - name: Upload artifacts

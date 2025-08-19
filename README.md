@@ -29,14 +29,14 @@ grep PROTOC_VERSION src/protobuf/protobuf_version.bzl
 
 ## Apply patch
 ```bash
-bash ./patch.sh
+./patch.sh
 ```
 
 ## Build the binary
 
 Supported arch are 'x86_64', 'x86', 'arm64-v8a' & 'armeabi-v7a'
 ```bash
-ANDROID_NDK="$HOME/Android/Sdk/ndk/" bash ./build.sh arm64-v8a  # Build output in build/bin/aapt-*
+ANDROID_NDK="$HOME/Android/Sdk/ndk/" ./build.sh arm64-v8a  # Build output in build/bin/aapt-*
 ```
 
 # Credits

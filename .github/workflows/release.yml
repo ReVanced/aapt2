@@ -33,7 +33,7 @@ jobs:
           wget https://github.com/protocolbuffers/protobuf/releases/download/v21.12/protoc-21.12-linux-x86_64.zip
           sudo unzip -j protoc-*.zip bin/protoc -d /usr/local/bin/
 
-      - name: Patch
+      - name: Apply patch
         run: ./patch.sh
 
       - name: Build

@@ -21,7 +21,7 @@ set(CMAKE_EXE_LINKER_FLAGS "-static")
 # platform tools version
 # see the misc/platform_tools_version.h
 set(TOOLS_VERSION 35.0.2)
-set(SRC ${PROJECT_SOURCE_DIR}/src)
+set(SRC ${PROJECT_SOURCE_DIR}/submodules)
 
 # 64-bit off_t for lseek.
 add_definitions(-D_FILE_OFFSET_BITS=64)

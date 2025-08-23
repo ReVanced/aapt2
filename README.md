@@ -36,7 +36,7 @@ grep PROTOC_VERSION submodules/protobuf/protobuf_version.bzl
 
 Supported arch are 'x86_64', 'x86', 'arm64-v8a' & 'armeabi-v7a'
 ```bash
-ANDROID_NDK="$HOME/Android/Sdk/ndk/" ./build.sh arm64-v8a  # Build output in build/bin/aapt-*
+ANDROID_NDK="$HOME/Android/Sdk/ndk/27.3.13750724/" ./build.sh arm64-v8a  # Build output in build/bin/aapt-*
 ```
 
 # Credits

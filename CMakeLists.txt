@@ -1,5 +1,8 @@
 cmake_minimum_required(VERSION 3.14.2)
-project(sdk-tools)
+project(build-tools)
+
+set(CMAKE_C_STANDARD 11)
+set(CMAKE_CXX_STANDARD 20)
 
 if(ANDROID_ABI STREQUAL "arm64-v8a" OR ANDROID_ABI STREQUAL "armeabi-v7a")
     enable_language(ASM)
@@ -16,31 +19,28 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fcolor-diagnostics -fPIC -Wno-attribute
 set(CMAKE_EXE_LINKER_FLAGS "-static")
 
 # platform tools version
-# see the patches/other/platform_tools_version.h
-set(TOOLS_VERSION 33.0.1)
-set(SRC ${PROJECT_SOURCE_DIR}/src)
+# see the misc/platform_tools_version.h
+set(TOOLS_VERSION 35.0.2)
+set(SRC ${PROJECT_SOURCE_DIR}/submodules)
 
 # 64-bit off_t for lseek.
 add_definitions(-D_FILE_OFFSET_BITS=64)
 
-if(NOT DEFINED PROTOC_PATH)
-    message(FATAL_ERROR "PROTOC_PATH undefined, please make sure to build and install protoc from the cloned submodule." )
-endif()
-
-set(PROTOC_COMPILER ${PROTOC_PATH})
-    
-if(NOT EXISTS ${PROTOC_COMPILER})
-    unset(PROTOC_PATH CACHE)
-    message(FATAL_ERROR "Invalid protoc: ${PROTOC_COMPILER}, please check if the path is correct")
-endif()
+# protoc options
+set(protobuf_BUILD_TESTS OFF CACHE BOOL "" FORCE)
+set(protobuf_BUILD_SHARED_LIBS OFF CACHE BOOL "" FORCE)
+set(protobuf_BUILD_PROTOC_BINARIES OFF CACHE BOOL "" FORCE)
+set(protobuf_BUILD_LIBPROTOC ON CACHE BOOL "" FORCE)
 
 # thrid-party libraries
-add_subdirectory(src/boringssl EXCLUDE_FROM_ALL)
-add_subdirectory(src/fmtlib EXCLUDE_FROM_ALL)
-add_subdirectory(src/pcre EXCLUDE_FROM_ALL)
-add_subdirectory(src/expat EXCLUDE_FROM_ALL)
-add_subdirectory(src/zopfli EXCLUDE_FROM_ALL)
-add_subdirectory(src/protobuf/cmake EXCLUDE_FROM_ALL)
+add_subdirectory(submodules/boringssl EXCLUDE_FROM_ALL)
+add_subdirectory(submodules/fmtlib EXCLUDE_FROM_ALL)
+add_subdirectory(submodules/pcre EXCLUDE_FROM_ALL)
+add_subdirectory(submodules/libpng EXCLUDE_FROM_ALL)
+add_subdirectory(submodules/jsoncpp EXCLUDE_FROM_ALL)
+add_subdirectory(submodules/expat/expat EXCLUDE_FROM_ALL)
+add_subdirectory(submodules/protobuf EXCLUDE_FROM_ALL)
+add_subdirectory(submodules/googletest EXCLUDE_FROM_ALL)
 
 # building sdk-tools
 add_subdirectory(cmake)

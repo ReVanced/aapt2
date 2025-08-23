@@ -1,6 +1,5 @@
 add_library(libcutils STATIC
     ${SRC}/core/libcutils/android_get_control_file.cpp
-    ${SRC}/core/libcutils/ashmem-host.cpp
     ${SRC}/core/libcutils/canned_fs_config.cpp
     ${SRC}/core/libcutils/config_utils.cpp
     ${SRC}/core/libcutils/fs.cpp
@@ -20,15 +19,22 @@ add_library(libcutils STATIC
     ${SRC}/core/libcutils/sockets.cpp
     ${SRC}/core/libcutils/str_parms.cpp
     ${SRC}/core/libcutils/strlcpy.c
-    ${SRC}/core/libcutils/trace-host.cpp
-    ${SRC}/core/libcutils/threads.cpp
+    ${SRC}/core/libcutils/android_reboot.cpp
+    ${SRC}/core/libcutils/ashmem-dev.cpp
+    ${SRC}/core/libcutils/klog.cpp
+    ${SRC}/core/libcutils/partition_utils.cpp
+    ${SRC}/core/libcutils/qtaguid.cpp
+    ${SRC}/core/libcutils/trace-dev.cpp
+    ${SRC}/core/libcutils/uevent.cpp
     )
 
-target_compile_definitions(libcutils PRIVATE -D_GNU_SOURCE)
+target_compile_definitions(libcutils PRIVATE
+    -D_GNU_SOURCE
+    )
 
 target_include_directories(libcutils PRIVATE
     ${SRC}/core/libutils/include
     ${SRC}/core/libcutils/include
-    ${SRC}/logging/liblog/include 
+    ${SRC}/logging/liblog/include
     ${SRC}/libbase/include
     )

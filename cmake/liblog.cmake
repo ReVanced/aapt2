@@ -15,19 +15,16 @@ add_library(liblog STATIC
     )
 
 target_compile_definitions(liblog PRIVATE
-    -DLIBLOG_LOG_TAG=1006 
-    -D_XOPEN_SOURCE=700 
+    -DLIBLOG_LOG_TAG=1006
+    -D_XOPEN_SOURCE=700
     -DFAKE_LOG_DEVICE=1
     -DSNET_EVENT_LOG_TAG=1397638686
+    -DANDROID_DEBUGGABLE=0
     )
-    
+
 target_include_directories(liblog PRIVATE
     ${SRC}/core/include
-    ${SRC}/core/libutils/include
-    ${SRC}/core/libcutils/include
-    ${SRC}/core/libsystem/include
-
     ${SRC}/logging/liblog/include
+    ${SRC}/core/libcutils/include
     ${SRC}/libbase/include
     )
-    

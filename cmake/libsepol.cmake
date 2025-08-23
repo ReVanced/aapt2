@@ -64,9 +64,12 @@ add_library(libsepol STATIC
     ${SRC}/selinux/libsepol/cil/src/cil_write_ast.c
     )
 
-target_compile_definitions(libsepol PRIVATE -D_GNU_SOURCE)
+target_compile_definitions(libsepol PRIVATE
+    -DHAVE_REALLOCARRAY
+    -D_GNU_SOURCE
+    )
 target_include_directories(libsepol PUBLIC
-    ${SRC}/selinux/libselinux/include 
+    ${SRC}/selinux/libselinux/include
     ${SRC}/selinux/libsepol/include
     )
 target_include_directories(libsepol PRIVATE

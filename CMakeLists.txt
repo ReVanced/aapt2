@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.14.2)
-project(sdk-tools)
+project(build-tools)
 
 set(CMAKE_C_STANDARD 11)
 set(CMAKE_CXX_STANDARD 20)
@@ -33,15 +33,14 @@ set(protobuf_BUILD_PROTOC_BINARIES OFF CACHE BOOL "" FORCE)
 set(protobuf_BUILD_LIBPROTOC ON CACHE BOOL "" FORCE)
 
 # thrid-party libraries
-add_subdirectory(src/boringssl EXCLUDE_FROM_ALL)
-add_subdirectory(src/fmtlib EXCLUDE_FROM_ALL)
-add_subdirectory(src/pcre EXCLUDE_FROM_ALL)
-add_subdirectory(src/libpng EXCLUDE_FROM_ALL)
-add_subdirectory(src/jsoncpp EXCLUDE_FROM_ALL)
-add_subdirectory(src/expat/expat EXCLUDE_FROM_ALL)
-add_subdirectory(src/protobuf EXCLUDE_FROM_ALL)
-add_subdirectory(src/googletest EXCLUDE_FROM_ALL)
+add_subdirectory(submodules/boringssl EXCLUDE_FROM_ALL)
+add_subdirectory(submodules/fmtlib EXCLUDE_FROM_ALL)
+add_subdirectory(submodules/pcre EXCLUDE_FROM_ALL)
+add_subdirectory(submodules/libpng EXCLUDE_FROM_ALL)
+add_subdirectory(submodules/jsoncpp EXCLUDE_FROM_ALL)
+add_subdirectory(submodules/expat/expat EXCLUDE_FROM_ALL)
+add_subdirectory(submodules/protobuf EXCLUDE_FROM_ALL)
+add_subdirectory(submodules/googletest EXCLUDE_FROM_ALL)
 
 # building sdk-tools
-add_subdirectory(lib)
-add_subdirectory(build-tools)
+add_subdirectory(cmake)

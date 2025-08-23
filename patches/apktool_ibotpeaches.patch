@@ -1,7 +1,7 @@
-diff --git a/src/base/libs/androidfw/ConfigDescription.cpp b/src/base/libs/androidfw/ConfigDescription.cpp
+diff --git a/submodules/base/libs/androidfw/ConfigDescription.cpp b/submodules/base/libs/androidfw/ConfigDescription.cpp
 index e08030c4..7ee5457b 100644
---- a/src/base/libs/androidfw/ConfigDescription.cpp
-+++ b/src/base/libs/androidfw/ConfigDescription.cpp
+--- a/submodules/base/libs/androidfw/ConfigDescription.cpp
++++ b/submodules/base/libs/androidfw/ConfigDescription.cpp
 @@ -51,7 +51,7 @@ static bool parseMcc(const char* name, ResTable_config* out) {
    while (*c >= '0' && *c <= '9') {
      c++;
@@ -32,10 +32,10 @@ index e08030c4..7ee5457b 100644
    }
  }
  
-diff --git a/src/base/libs/androidfw/ResourceTypes.cpp b/src/base/libs/androidfw/ResourceTypes.cpp
+diff --git a/submodules/base/libs/androidfw/ResourceTypes.cpp b/submodules/base/libs/androidfw/ResourceTypes.cpp
 index a3dd9833..ec9706b3 100644
---- a/src/base/libs/androidfw/ResourceTypes.cpp
-+++ b/src/base/libs/androidfw/ResourceTypes.cpp
+--- a/submodules/base/libs/androidfw/ResourceTypes.cpp
++++ b/submodules/base/libs/androidfw/ResourceTypes.cpp
 @@ -5647,7 +5647,7 @@ bool ResTable::stringToFloat(const char16_t* s, size_t len, Res_value* outValue)
      return false;
  }
@@ -81,10 +81,10 @@ index a3dd9833..ec9706b3 100644
                      // We accept packageId's generated as 0x01 in order to support
                      // building the android system resources
                      outValue->data = rid;
-diff --git a/src/base/libs/androidfw/include/androidfw/ResourceTypes.h b/src/base/libs/androidfw/include/androidfw/ResourceTypes.h
+diff --git a/submodules/base/libs/androidfw/include/androidfw/ResourceTypes.h b/submodules/base/libs/androidfw/include/androidfw/ResourceTypes.h
 index c2648909..3b850fac 100644
---- a/src/base/libs/androidfw/include/androidfw/ResourceTypes.h
-+++ b/src/base/libs/androidfw/include/androidfw/ResourceTypes.h
+--- a/submodules/base/libs/androidfw/include/androidfw/ResourceTypes.h
++++ b/submodules/base/libs/androidfw/include/androidfw/ResourceTypes.h
 @@ -2214,7 +2214,7 @@ public:
      // resolve resources that do not exist in this ResTable.  If 'attrType' is
      // supplied, the value will be type checked for this format if 'attrID'
@@ -94,10 +94,10 @@ index c2648909..3b850fac 100644
                         const char16_t* s, size_t len,
                         bool preserveSpaces, bool coerceType,
                         uint32_t attrID = 0,
-diff --git a/src/base/tools/aapt/AaptAssets.cpp b/src/base/tools/aapt/AaptAssets.cpp
+diff --git a/submodules/base/tools/aapt/AaptAssets.cpp b/submodules/base/tools/aapt/AaptAssets.cpp
 index 82bcfc2c..17a74898 100644
---- a/src/base/tools/aapt/AaptAssets.cpp
-+++ b/src/base/tools/aapt/AaptAssets.cpp
+--- a/submodules/base/tools/aapt/AaptAssets.cpp
++++ b/submodules/base/tools/aapt/AaptAssets.cpp
 @@ -38,6 +38,9 @@ static const String8 kResString(kResourceDir);
   */
  static bool validateFileName(const char* fileName)
@@ -118,10 +118,10 @@ index 82bcfc2c..17a74898 100644
      static char const * const KEYWORDS[] = {
          "abstract", "assert", "boolean", "break",
          "byte", "case", "catch", "char", "class", "const", "continue",
-diff --git a/src/base/tools/aapt/AaptConfig.cpp b/src/base/tools/aapt/AaptConfig.cpp
+diff --git a/submodules/base/tools/aapt/AaptConfig.cpp b/submodules/base/tools/aapt/AaptConfig.cpp
 index 7578f79f..f2b1fbaf 100644
---- a/src/base/tools/aapt/AaptConfig.cpp
-+++ b/src/base/tools/aapt/AaptConfig.cpp
+--- a/submodules/base/tools/aapt/AaptConfig.cpp
++++ b/submodules/base/tools/aapt/AaptConfig.cpp
 @@ -260,6 +260,9 @@ bool parseCommaSeparatedList(const String8& str, std::set<ConfigDescription>* ou
  }
  
@@ -178,10 +178,10 @@ index 7578f79f..f2b1fbaf 100644
      }
  
      return false;
-diff --git a/src/base/tools/aapt/Bundle.h b/src/base/tools/aapt/Bundle.h
+diff --git a/submodules/base/tools/aapt/Bundle.h b/submodules/base/tools/aapt/Bundle.h
 index deb9cc08..b0969ba5 100644
---- a/src/base/tools/aapt/Bundle.h
-+++ b/src/base/tools/aapt/Bundle.h
+--- a/submodules/base/tools/aapt/Bundle.h
++++ b/submodules/base/tools/aapt/Bundle.h
 @@ -58,7 +58,7 @@ public:
            mNoVersionTransitions(false),
            mCrunchedOutputDir(NULL), mProguardFile(NULL), mMainDexProguardFile(NULL),
@@ -208,10 +208,10 @@ index deb9cc08..b0969ba5 100644
      const char* mManifestMinSdkVersion;
      const char* mMinSdkVersion;
      const char* mTargetSdkVersion;
-diff --git a/src/base/tools/aapt/Main.cpp b/src/base/tools/aapt/Main.cpp
+diff --git a/submodules/base/tools/aapt/Main.cpp b/submodules/base/tools/aapt/Main.cpp
 index 66a05101..0d156a9c 100644
---- a/src/base/tools/aapt/Main.cpp
-+++ b/src/base/tools/aapt/Main.cpp
+--- a/submodules/base/tools/aapt/Main.cpp
++++ b/submodules/base/tools/aapt/Main.cpp
 @@ -16,6 +16,7 @@
  #include <cstdlib>
  #include <getopt.h>
@@ -285,10 +285,10 @@ index 66a05101..0d156a9c 100644
                  } else if (strcmp(cp, "-min-sdk-version") == 0) {
                      argc--;
                      argv++;
-diff --git a/src/base/tools/aapt/Resource.cpp b/src/base/tools/aapt/Resource.cpp
+diff --git a/submodules/base/tools/aapt/Resource.cpp b/submodules/base/tools/aapt/Resource.cpp
 index 7e4e186e..159c9f75 100644
---- a/src/base/tools/aapt/Resource.cpp
-+++ b/src/base/tools/aapt/Resource.cpp
+--- a/submodules/base/tools/aapt/Resource.cpp
++++ b/submodules/base/tools/aapt/Resource.cpp
 @@ -270,6 +270,19 @@ static status_t parsePackage(Bundle* bundle, const sp<AaptAssets>& assets,
          bundle->setRevisionCode(String8(block.getAttributeStringValue(revisionCodeIndex, &len)).c_str());
      }
@@ -345,10 +345,10 @@ index 7e4e186e..159c9f75 100644
      }
  
      ssize_t result = NO_ERROR;
-diff --git a/src/base/tools/aapt/ResourceTable.cpp b/src/base/tools/aapt/ResourceTable.cpp
+diff --git a/submodules/base/tools/aapt/ResourceTable.cpp b/submodules/base/tools/aapt/ResourceTable.cpp
 index 9fb73194..c5aec78c 100644
---- a/src/base/tools/aapt/ResourceTable.cpp
-+++ b/src/base/tools/aapt/ResourceTable.cpp
+--- a/submodules/base/tools/aapt/ResourceTable.cpp
++++ b/submodules/base/tools/aapt/ResourceTable.cpp
 @@ -111,7 +111,7 @@ status_t compileXmlFile(const Bundle* bundle,
      }
  
@@ -451,10 +451,10 @@ index 9fb73194..c5aec78c 100644
      const String16 vector16("vector");
      const String16 animatedVector16("animated-vector");
      const String16 pathInterpolator16("pathInterpolator");
-diff --git a/src/base/tools/aapt/XMLNode.cpp b/src/base/tools/aapt/XMLNode.cpp
+diff --git a/submodules/base/tools/aapt/XMLNode.cpp b/submodules/base/tools/aapt/XMLNode.cpp
 index 1a648c01..edc3d75a 100644
---- a/src/base/tools/aapt/XMLNode.cpp
-+++ b/src/base/tools/aapt/XMLNode.cpp
+--- a/submodules/base/tools/aapt/XMLNode.cpp
++++ b/submodules/base/tools/aapt/XMLNode.cpp
 @@ -971,7 +971,7 @@ void XMLNode::removeWhitespace(bool stripAll, const char** cDataTags)
      }
  }
@@ -482,10 +482,10 @@ index 1a648c01..edc3d75a 100644
          if (err != NO_ERROR) {
              hasErrors = true;
          }
-diff --git a/src/base/tools/aapt/XMLNode.h b/src/base/tools/aapt/XMLNode.h
+diff --git a/submodules/base/tools/aapt/XMLNode.h b/submodules/base/tools/aapt/XMLNode.h
 index ac920186..5364b525 100644
---- a/src/base/tools/aapt/XMLNode.h
-+++ b/src/base/tools/aapt/XMLNode.h
+--- a/submodules/base/tools/aapt/XMLNode.h
++++ b/submodules/base/tools/aapt/XMLNode.h
 @@ -81,8 +81,7 @@ public:
          }
  
@@ -505,10 +505,10 @@ index ac920186..5364b525 100644
  
      status_t assignResourceIds(const sp<AaptAssets>& assets,
                                 const ResourceTable* table = NULL);
-diff --git a/src/base/tools/aapt2/ResourceTable.cpp b/src/base/tools/aapt2/ResourceTable.cpp
+diff --git a/submodules/base/tools/aapt2/ResourceTable.cpp b/submodules/base/tools/aapt2/ResourceTable.cpp
 index a3b0b45d..1ddb4f12 100644
---- a/src/base/tools/aapt2/ResourceTable.cpp
-+++ b/src/base/tools/aapt2/ResourceTable.cpp
+--- a/submodules/base/tools/aapt2/ResourceTable.cpp
++++ b/submodules/base/tools/aapt2/ResourceTable.cpp
 @@ -470,9 +470,10 @@ bool ResourceTable::AddResource(NewResource&& res, android::IDiagnostics* diag)
    const bool validate = validation_ == Validation::kEnabled;
    const android::Source source = res.value ? res.value->GetSource() : android::Source{};
@@ -523,10 +523,10 @@ index a3b0b45d..1ddb4f12 100644
    }
  
    if (res.id.has_value() && !res.id->first.is_valid()) {
-diff --git a/src/base/tools/aapt2/ResourceUtils.cpp b/src/base/tools/aapt2/ResourceUtils.cpp
+diff --git a/submodules/base/tools/aapt2/ResourceUtils.cpp b/submodules/base/tools/aapt2/ResourceUtils.cpp
 index d358df98..7daa7b21 100644
---- a/src/base/tools/aapt2/ResourceUtils.cpp
-+++ b/src/base/tools/aapt2/ResourceUtils.cpp
+--- a/submodules/base/tools/aapt2/ResourceUtils.cpp
++++ b/submodules/base/tools/aapt2/ResourceUtils.cpp
 @@ -217,7 +217,8 @@ bool ParseAttributeReference(StringPiece str, ResourceNameRef* out_ref) {
      }
  
@@ -537,10 +537,10 @@ index d358df98..7daa7b21 100644
      }
  
      if (entry.empty()) {
-diff --git a/src/base/tools/aapt2/cmd/Link.cpp b/src/base/tools/aapt2/cmd/Link.cpp
+diff --git a/submodules/base/tools/aapt2/cmd/Link.cpp b/submodules/base/tools/aapt2/cmd/Link.cpp
 index 642a5618..f1348ce7 100644
---- a/src/base/tools/aapt2/cmd/Link.cpp
-+++ b/src/base/tools/aapt2/cmd/Link.cpp
+--- a/submodules/base/tools/aapt2/cmd/Link.cpp
++++ b/submodules/base/tools/aapt2/cmd/Link.cpp
 @@ -2483,10 +2483,11 @@ int LinkCommand::Action(const std::vector<std::string>& args) {
      if (package_id_int > std::numeric_limits<uint8_t>::max()
          || package_id_int == kFrameworkPackageId
@@ -580,10 +580,10 @@ index 642a5618..f1348ce7 100644
    // Turn off auto versioning for static-libs.
    if (context.GetPackageType() == PackageType::kStaticLib) {
      options_.no_auto_version = true;
-diff --git a/src/base/tools/aapt2/cmd/Link.h b/src/base/tools/aapt2/cmd/Link.h
+diff --git a/submodules/base/tools/aapt2/cmd/Link.h b/submodules/base/tools/aapt2/cmd/Link.h
 index 2f178537..7d3111d5 100644
---- a/src/base/tools/aapt2/cmd/Link.h
-+++ b/src/base/tools/aapt2/cmd/Link.h
+--- a/submodules/base/tools/aapt2/cmd/Link.h
++++ b/submodules/base/tools/aapt2/cmd/Link.h
 @@ -78,6 +78,7 @@ struct LinkOptions {
    bool use_sparse_encoding = false;
    std::unordered_set<std::string> extensions_to_not_compress;
@@ -601,10 +601,10 @@ index 2f178537..7d3111d5 100644
      AddOptionalSwitch("--no-compress", "Do not compress any resources.",
          &options_.do_not_compress_anything);
      AddOptionalSwitch("--keep-raw-values", "Preserve raw attribute values in xml files.",
-diff --git a/src/base/tools/aapt2/java/JavaClassGenerator.cpp b/src/base/tools/aapt2/java/JavaClassGenerator.cpp
+diff --git a/submodules/base/tools/aapt2/java/JavaClassGenerator.cpp b/submodules/base/tools/aapt2/java/JavaClassGenerator.cpp
 index 6e73b017..e3db14f8 100644
---- a/src/base/tools/aapt2/java/JavaClassGenerator.cpp
-+++ b/src/base/tools/aapt2/java/JavaClassGenerator.cpp
+--- a/submodules/base/tools/aapt2/java/JavaClassGenerator.cpp
++++ b/submodules/base/tools/aapt2/java/JavaClassGenerator.cpp
 @@ -58,7 +58,9 @@ static const std::set<StringPiece> sJavaIdentifiers = {
      "true",       "false",        "null"};
  
@@ -616,10 +616,10 @@ index 6e73b017..e3db14f8 100644
  }
  
  // Java symbols can not contain . or -, but those are valid in a resource name.
-diff --git a/src/base/tools/aapt2/link/PrivateAttributeMover.cpp b/src/base/tools/aapt2/link/PrivateAttributeMover.cpp
+diff --git a/submodules/base/tools/aapt2/link/PrivateAttributeMover.cpp b/submodules/base/tools/aapt2/link/PrivateAttributeMover.cpp
 index 8c6c743d..f9a70d3f 100644
---- a/src/base/tools/aapt2/link/PrivateAttributeMover.cpp
-+++ b/src/base/tools/aapt2/link/PrivateAttributeMover.cpp
+--- a/submodules/base/tools/aapt2/link/PrivateAttributeMover.cpp
++++ b/submodules/base/tools/aapt2/link/PrivateAttributeMover.cpp
 @@ -82,7 +82,8 @@ bool PrivateAttributeMover::Consume(IAaptContext* context, ResourceTable* table)
  
      auto attr_private_type = ResourceNamedTypeWithDefaultName(ResourceType::kAttrPrivate);
@@ -630,10 +630,10 @@ index 8c6c743d..f9a70d3f 100644
      priv_attr_type->entries = std::move(private_attr_entries);
    }
    return true;
-diff --git a/src/base/tools/aapt2/link/ReferenceLinker.cpp b/src/base/tools/aapt2/link/ReferenceLinker.cpp
+diff --git a/submodules/base/tools/aapt2/link/ReferenceLinker.cpp b/submodules/base/tools/aapt2/link/ReferenceLinker.cpp
 index c69b3251..c7662625 100644
---- a/src/base/tools/aapt2/link/ReferenceLinker.cpp
-+++ b/src/base/tools/aapt2/link/ReferenceLinker.cpp
+--- a/submodules/base/tools/aapt2/link/ReferenceLinker.cpp
++++ b/submodules/base/tools/aapt2/link/ReferenceLinker.cpp
 @@ -299,8 +299,9 @@ const SymbolTable::Symbol* ReferenceLinker::ResolveSymbolCheckVisibility(const R
    }
  

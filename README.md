@@ -24,7 +24,7 @@ sudo unzip -p protoc-*.zip bin/protoc -d /usr/local/bin/
 
 The required version can be identified with :
 ```bash
-grep PROTOC_VERSION src/protobuf/protobuf_version.bzl
+grep PROTOC_VERSION submodules/protobuf/protobuf_version.bzl
 ```
 
 ## Apply patch

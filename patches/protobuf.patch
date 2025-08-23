@@ -1,7 +1,7 @@
-diff --git a/src/protobuf/cmake/CMakeLists.txt b/src/protobuf/cmake/CMakeLists.txt
+diff --git a/submodules/protobuf/cmake/CMakeLists.txt b/submodules/protobuf/cmake/CMakeLists.txt
 index 04cb330..95882a2 100644
---- a/src/protobuf/CMakeLists.txt
-+++ b/src/protobuf/CMakeLists.txt
+--- a/submodules/protobuf/CMakeLists.txt
++++ b/submodules/protobuf/CMakeLists.txt
 @@ -298,7 +298,8 @@ endif (MSVC)
  include_directories(
    ${ZLIB_INCLUDE_DIRECTORIES}
@@ -12,10 +12,10 @@ index 04cb330..95882a2 100644
 
  if (protobuf_UNICODE)
    add_definitions(-DUNICODE -D_UNICODE)
-diff --git a/src/protobuf/cmake/libprotobuf.cmake b/src/protobuf/cmake/libprotobuf.cmake
+diff --git a/submodules/protobuf/cmake/libprotobuf.cmake b/submodules/protobuf/cmake/libprotobuf.cmake
 index 07e4bcf..f77815c 100644
---- a/src/protobuf/cmake/libprotobuf.cmake
-+++ b/src/protobuf/cmake/libprotobuf.cmake
+--- a/submodules/protobuf/cmake/libprotobuf.cmake
++++ b/submodules/protobuf/cmake/libprotobuf.cmake
 @@ -118,7 +118,8 @@ if(protobuf_LINK_LIBATOMIC)
    target_link_libraries(libprotobuf PRIVATE atomic)
  endif()

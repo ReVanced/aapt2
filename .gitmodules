@@ -1,72 +1,72 @@
-[submodule "src/expat"]
+[submodule "submodules/expat"]
 	shallow = true
-	path = src/expat
+	path = submodules/expat
 	url = https://android.googlesource.com/platform/external/expat
-[submodule "src/fmtlib"]
+[submodule "submodules/fmtlib"]
 	shallow = true
-	path = src/fmtlib
+	path = submodules/fmtlib
 	url = https://android.googlesource.com/platform/external/fmtlib
-[submodule "src/boringssl"]
+[submodule "submodules/boringssl"]
 	shallow = true
-	path = src/boringssl
+	path = submodules/boringssl
 	url = https://android.googlesource.com/platform/external/boringssl
-[submodule "src/incremental_delivery"]
+[submodule "submodules/incremental_delivery"]
 	shallow = true
-	path = src/incremental_delivery
+	path = submodules/incremental_delivery
 	url = https://android.googlesource.com/platform/system/incremental_delivery
-[submodule "src/libbase"]
+[submodule "submodules/libbase"]
 	shallow = true
-	path = src/libbase
+	path = submodules/libbase
 	url = https://android.googlesource.com/platform/system/libbase
-[submodule "src/libpng"]
+[submodule "submodules/libpng"]
 	shallow = true
-	path = src/libpng
+	path = submodules/libpng
 	url = https://android.googlesource.com/platform/external/libpng
-[submodule "src/pcre"]
+[submodule "submodules/pcre"]
 	shallow = true
-	path = src/pcre
+	path = submodules/pcre
 	url = https://android.googlesource.com/platform/external/pcre
-[submodule "src/protobuf"]
+[submodule "submodules/protobuf"]
 	shallow = true
-	path = src/protobuf
+	path = submodules/protobuf
 	url = https://android.googlesource.com/platform/external/protobuf
-[submodule "src/logging"]
+[submodule "submodules/logging"]
 	shallow = true
-	path = src/logging
+	path = submodules/logging
 	url = https://android.googlesource.com/platform/system/logging
-[submodule "src/selinux"]
+[submodule "submodules/selinux"]
 	shallow = true
-	path = src/selinux
+	path = submodules/selinux
 	url = https://android.googlesource.com/platform/external/selinux
-[submodule "src/core"]
+[submodule "submodules/core"]
 	shallow = true
-	path = src/core
+	path = submodules/core
 	url = https://android.googlesource.com/platform/system/core
-[submodule "src/base"]
+[submodule "submodules/base"]
 	shallow = true
-	path = src/base
+	path = submodules/base
 	url = https://android.googlesource.com/platform/frameworks/base
-[submodule "src/libziparchive"]
+[submodule "submodules/libziparchive"]
 	shallow = true
-	path = src/libziparchive
+	path = submodules/libziparchive
 	url = https://android.googlesource.com/platform/system/libziparchive
-[submodule "src/soong"]
+[submodule "submodules/soong"]
 	shallow = true
-	path = src/soong
+	path = submodules/soong
 	url = https://android.googlesource.com/platform/build/soong
-[submodule "src/unwinding"]
+[submodule "submodules/unwinding"]
 	shallow = true
-	path = src/unwinding
+	path = submodules/unwinding
 	url = https://android.googlesource.com/platform/system/unwinding
-[submodule "src/jsoncpp"]
+[submodule "submodules/jsoncpp"]
 	shallow = true
-	path = src/jsoncpp
+	path = submodules/jsoncpp
 	url = https://android.googlesource.com/platform/external/jsoncpp
-[submodule "src/googletest"]
+[submodule "submodules/googletest"]
 	shallow = true
-	path = src/googletest
+	path = submodules/googletest
 	url = https://android.googlesource.com/platform/external/googletest
-[submodule "src/native"]
+[submodule "submodules/native"]
 	shallow = true
-	path = src/native
+	path = submodules/native
 	url = https://android.googlesource.com/platform/frameworks/native

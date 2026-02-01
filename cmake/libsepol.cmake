@@ -73,3 +73,5 @@ target_include_directories(libsepol PRIVATE
     ${SRC}/selinux/libsepol/src
     ${SRC}/selinux/libsepol/cil/include
     )
+    
+target_link_options(libsepol PRIVATE "-Wl,-z,max-page-size=16384")

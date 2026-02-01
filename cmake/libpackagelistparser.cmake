@@ -6,3 +6,5 @@ target_include_directories(libpackagelistparser PRIVATE
 ${SRC}/core/libpackagelistparser/include
 ${SRC}/logging/liblog/include
 )
+
+target_link_options(libpackagelistparser PRIVATE "-Wl,-z,max-page-size=16384")

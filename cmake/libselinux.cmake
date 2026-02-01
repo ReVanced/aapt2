@@ -72,3 +72,5 @@ target_include_directories(libselinux PRIVATE
 target_include_directories(libselinux PRIVATE
     ${SRC}/selinux/libselinux/src
     )
+    
+target_link_options(libselinux PRIVATE "-Wl,-z,max-page-size=16384")

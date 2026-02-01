@@ -33,3 +33,4 @@ target_include_directories(libutils PRIVATE
     ${SRC}/libbase/include
     )
     
+target_link_options(libutils PRIVATE "-Wl,-z,max-page-size=16384")

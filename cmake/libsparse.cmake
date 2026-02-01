@@ -11,3 +11,5 @@ target_include_directories(libsparse PRIVATE
     ${SRC}/core/libsparse/include 
     ${SRC}/libbase/include
     )
+
+target_link_options(libsparse PRIVATE "-Wl,-z,max-page-size=16384")

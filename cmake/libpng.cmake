@@ -34,3 +34,5 @@ elseif(ANDROID_ABI STREQUAL "x86_64" OR ANDROID_ABI STREQUAL "x86")
 endif()
         
 target_include_directories(libpng PRIVATE ${SRC}/libpng)
+
+target_link_options(libpng PRIVATE "-Wl,-z,max-page-size=16384")

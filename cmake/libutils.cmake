@@ -34,3 +34,5 @@ target_include_directories(libutils PRIVATE
     ${SRC}/libbase/include
     ${SRC}/unwinding/libbacktrace/include
     )
+
+target_link_options(libutils PRIVATE "-Wl,-z,max-page-size=16384")

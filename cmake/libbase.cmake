@@ -25,3 +25,5 @@ target_include_directories(libbase PRIVATE
     ${SRC}/fmtlib/include
     ${SRC}/logging/liblog/include
     )
+
+target_link_options(libbase PRIVATE "-Wl,-z,max-page-size=16384")

@@ -18,3 +18,5 @@ target_include_directories(libincfs PRIVATE
     ${SRC}/selinux/libselinux/include
     ${SRC}/logging/liblog/include 
     )
+
+target_link_options(libincfs PRIVATE "-Wl,-z,max-page-size=16384")

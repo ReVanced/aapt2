@@ -169,8 +169,11 @@ target_include_directories(libprotoc PRIVATE
     )
     
 add_executable(protoc ${SRC}/protobuf/src/google/protobuf/compiler/main.cc)
+target_link_options(protoc PRIVATE "-Wl,-z,max-page-size=16384")
 target_include_directories(protoc PRIVATE 
     ${SRC}/protobuf/android
     ${SRC}/protobuf/src
     )
 target_link_libraries(protoc libprotoc liblog dl z)
+
+target_link_options(libprotoc PRIVATE "-Wl,-z,max-page-size=16384")

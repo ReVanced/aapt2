@@ -44,3 +44,5 @@ target_include_directories(libandroidfw PUBLIC
     )
     
 target_link_libraries(libandroidfw PUBLIC fmt::fmt)
+
+target_link_options(libandroidfw PRIVATE "-Wl,-z,max-page-size=16384")

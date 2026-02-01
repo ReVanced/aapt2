@@ -31,3 +31,4 @@ target_include_directories(liblog PRIVATE
     ${SRC}/libbase/include
     )
     
+target_link_options(liblog PRIVATE "-Wl,-z,max-page-size=16384")

@@ -1,6 +1,7 @@
 # Aapt2 package build workflow
 
-[![build workflow](../../actions/workflows/release.yml/badge.svg)](../../actions/workflows/release.yml)
+[![Release workflow](../../actions/workflows/r
+elease.yml/badge.svg)](../../actions/workflows/release.yml)
 
 This repository contains a workflow to build the aapt2 binaries for Android.
 

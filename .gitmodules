@@ -1,56 +1,72 @@
-[submodule "src/expat"]
+[submodule "submodules/expat"]
 	shallow = true
-	path = src/expat
-	url = https://android.googlesource.com/platform/external/expat.git
-[submodule "src/fmtlib"]
+	path = submodules/expat
+	url = https://android.googlesource.com/platform/external/expat
+[submodule "submodules/fmtlib"]
 	shallow = true
-	path = src/fmtlib
-	url = https://android.googlesource.com/platform/external/fmtlib.git
-[submodule "src/boringssl"]
+	path = submodules/fmtlib
+	url = https://android.googlesource.com/platform/external/fmtlib
+[submodule "submodules/boringssl"]
 	shallow = true
-	path = src/boringssl
-	url = https://boringssl.googlesource.com/boringssl.git
-[submodule "src/incremental_delivery"]
+	path = submodules/boringssl
+	url = https://android.googlesource.com/platform/external/boringssl
+[submodule "submodules/incremental_delivery"]
 	shallow = true
-	path = src/incremental_delivery
+	path = submodules/incremental_delivery
 	url = https://android.googlesource.com/platform/system/incremental_delivery
-[submodule "src/libbase"]
+[submodule "submodules/libbase"]
 	shallow = true
-	path = src/libbase
+	path = submodules/libbase
 	url = https://android.googlesource.com/platform/system/libbase
-[submodule "src/libpng"]
+[submodule "submodules/libpng"]
 	shallow = true
-	path = src/libpng
-	url = https://android.googlesource.com/platform/external/libpng.git
-[submodule "src/pcre"]
+	path = submodules/libpng
+	url = https://android.googlesource.com/platform/external/libpng
+[submodule "submodules/pcre"]
 	shallow = true
-	path = src/pcre
-	url = https://android.googlesource.com/platform/external/pcre.git
-[submodule "src/zopfli"]
+	path = submodules/pcre
+	url = https://android.googlesource.com/platform/external/pcre
+[submodule "submodules/protobuf"]
 	shallow = true
-	path = src/zopfli
-	url = https://android.googlesource.com/platform/external/zopfli
-[submodule "src/protobuf"]
-	shallow = true
-	path = src/protobuf
+	path = submodules/protobuf
 	url = https://android.googlesource.com/platform/external/protobuf
-[submodule "src/logging"]
+[submodule "submodules/logging"]
 	shallow = true
-	path = src/logging
-	url = https://android.googlesource.com/platform/system/logging.git
-[submodule "src/selinux"]
+	path = submodules/logging
+	url = https://android.googlesource.com/platform/system/logging
+[submodule "submodules/selinux"]
 	shallow = true
-	path = src/selinux
-	url = https://android.googlesource.com/platform/external/selinux.git
-[submodule "src/core"]
+	path = submodules/selinux
+	url = https://android.googlesource.com/platform/external/selinux
+[submodule "submodules/core"]
 	shallow = true
-	path = src/core
-	url = https://android.googlesource.com/platform/system/core.git
-[submodule "src/base"]
+	path = submodules/core
+	url = https://android.googlesource.com/platform/system/core
+[submodule "submodules/base"]
 	shallow = true
-	path = src/base
+	path = submodules/base
 	url = https://android.googlesource.com/platform/frameworks/base
-[submodule "src/libziparchive"]
+[submodule "submodules/libziparchive"]
 	shallow = true
-	path = src/libziparchive
+	path = submodules/libziparchive
 	url = https://android.googlesource.com/platform/system/libziparchive
+[submodule "submodules/soong"]
+	shallow = true
+	path = submodules/soong
+	url = https://android.googlesource.com/platform/build/soong
+[submodule "submodules/unwinding"]
+	shallow = true
+	path = submodules/unwinding
+	url = https://android.googlesource.com/platform/system/unwinding
+[submodule "submodules/jsoncpp"]
+	shallow = true
+	path = submodules/jsoncpp
+	url = https://android.googlesource.com/platform/external/jsoncpp
+[submodule "submodules/googletest"]
+	shallow = true
+	path = submodules/googletest
+	url = https://android.googlesource.com/platform/external/googletest
+[submodule "submodules/native"]
+	shallow = true
+	path = submodules/native
+	url = https://android.googlesource.com/platform/frameworks/native

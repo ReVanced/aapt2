@@ -71,7 +71,7 @@ jobs:
 
       - name: Generate attestations
         if: ${{ steps.release.outputs.release_created }}
-        uses: actions/attest-build-provenance@v2
+        uses: actions/attest-build-provenance@v4
         with:
           subject-path: ${{ github.workspace }}/build/bin/aapt2-*
 

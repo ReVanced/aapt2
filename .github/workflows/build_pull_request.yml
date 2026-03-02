@@ -45,4 +45,4 @@ jobs:
         with:
           name: aapt2-${{ matrix.target_arch }}
           path: ${{ github.workspace }}/build/bin/aapt2-*
-          if-no-files-found: error
+          archive: false

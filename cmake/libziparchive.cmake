@@ -20,3 +20,5 @@ target_include_directories(libziparchive PRIVATE
     ${SRC}/logging/liblog/include
     ${SRC}/googletest/googletest/include
     )
+
+target_link_options(libziparchive PRIVATE "-Wl,-z,max-page-size=16384")

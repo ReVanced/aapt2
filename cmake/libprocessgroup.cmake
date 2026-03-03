@@ -20,3 +20,5 @@ target_include_directories(libprocessgroup PRIVATE
 target_include_directories(libprocessgroup PRIVATE
     ${SRC}/core/libprocessgroup
     )
+
+target_link_options(libprocessgroup PRIVATE "-Wl,-z,max-page-size=16384")

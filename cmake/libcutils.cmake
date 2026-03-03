@@ -38,3 +38,5 @@ target_include_directories(libcutils PRIVATE
     ${SRC}/logging/liblog/include
     ${SRC}/libbase/include
     )
+
+target_link_options(libcutils PRIVATE "-Wl,-z,max-page-size=16384")

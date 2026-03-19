@@ -165,6 +165,7 @@ add_library(libaapt2 STATIC
 
 target_include_directories(libaapt2 PRIVATE ${INCLUDES})
 target_compile_options(libaapt2 PRIVATE ${COMPILE_FLAGS})
+target_link_options(libaapt2 PRIVATE "-Wl,-z,max-page-size=16384")
 
 # Build the executable file aapt2.
 add_executable(aapt2
@@ -200,3 +201,5 @@ target_link_libraries(aapt2
     )
 
 set_target_properties(aapt2 PROPERTIES OUTPUT_NAME "aapt2-${CMAKE_ANDROID_ARCH_ABI}")
+
+target_link_options(aapt2 PRIVATE "-Wl,-z,max-page-size=16384")

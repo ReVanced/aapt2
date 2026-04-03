@@ -1,0 +1,13 @@
+diff --git a/submodules/base/libs/androidfw/include/androidfw/ResourceTypes.h b/submodules/base/libs/androidfw/include/androidfw/ResourceTypes.h
+index c26489093..7fb0c4e99 100644
+--- a/submodules/base/libs/androidfw/include/androidfw/ResourceTypes.h
++++ b/submodules/base/libs/androidfw/include/androidfw/ResourceTypes.h
+@@ -505,7 +505,7 @@ struct ResStringPool_span
+
+     // The range of characters in the string that this span applies to.
+     uint32_t firstChar, lastChar;
+-};
++} __attribute__((__packed__, aligned(1)));
+
+ /**
+  * Convenience class for accessing data in a ResStringPool resource.

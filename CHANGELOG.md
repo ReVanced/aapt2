@@ -1,3 +1,15 @@
+# [1.1.0](https://github.com/ReVanced/aapt2/compare/v1.0.0...v1.1.0) (2026-04-05)
+
+
+### Bug Fixes
+
+* [#30](https://github.com/ReVanced/aapt2/issues/30) BusError when running 32b binary on armv8 with compatibility ([#32](https://github.com/ReVanced/aapt2/issues/32)) ([be4a3b7](https://github.com/ReVanced/aapt2/commit/be4a3b7be23564c9f2d80a3edeed9817367ff4dd))
+
+
+### Features
+
+* Use 16 KB ELF alignment ([#20](https://github.com/ReVanced/aapt2/issues/20)) ([62222bb](https://github.com/ReVanced/aapt2/commit/62222bb11331f9030c7fb8aeb9079eb0ce36b504))
+
 # 1.0.0 (2026-03-01)
 
 

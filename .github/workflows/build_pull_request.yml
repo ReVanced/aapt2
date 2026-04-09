@@ -16,7 +16,7 @@ jobs:
       fail-fast: false
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           submodules: 'true'
 
@@ -41,7 +41,7 @@ jobs:
         run: bash ./build.sh ${{ matrix.target_arch }}
 
       - name: Upload artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: aapt2-${{ matrix.target_arch }}
           path: ${{ github.workspace }}/build/bin/aapt2-*

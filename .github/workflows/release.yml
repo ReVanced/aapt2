@@ -17,7 +17,7 @@ jobs:
       fail-fast: false
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           submodules: 'true'
 
@@ -42,7 +42,7 @@ jobs:
         run: bash ./build.sh ${{ matrix.target_arch }}
 
       - name: Upload artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: aapt2-${{ matrix.target_arch }}
           path: ${{ github.workspace }}/build/bin/aapt2-*
@@ -55,28 +55,29 @@ jobs:
       id-token: write
       contents: write
       attestations: write
+      artifact-metadata: write
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           # Make sure the release step uses its own credentials:
           # https://github.com/cycjimmy/semantic-release-action#private-packages
           persist-credentials: false
 
       - name: Download all built artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           path: ${{ github.workspace }}/build/bin/
           merge-multiple: true
 
       - name: Generate attestations
         if: ${{ steps.release.outputs.release_created }}
-        uses: actions/attest-build-provenance@v2
+        uses: actions/attest@v4
         with:
           subject-path: ${{ github.workspace }}/build/bin/aapt2-*
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version: "lts/*"
           cache: 'npm'
@@ -85,7 +86,7 @@ jobs:
         run: npm install
 
       - name: Import GPG key
-        uses: crazy-max/ghaction-import-gpg@v6
+        uses: crazy-max/ghaction-import-gpg@v7
         with:
           gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
           passphrase: ${{ secrets.GPG_PASSPHRASE }}

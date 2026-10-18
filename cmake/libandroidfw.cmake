@@ -32,6 +32,7 @@ add_library(libandroidfw STATIC
     ${SRC}/base/libs/androidfw/LoadedArsc.cpp
     ${SRC}/base/libs/androidfw/Locale.cpp
     ${SRC}/base/libs/androidfw/LocaleData.cpp
+    ${SRC}/base/libs/androidfw/LocaleDataLookup.cpp
     ${SRC}/base/libs/androidfw/misc.cpp
     ${SRC}/base/libs/androidfw/NinePatch.cpp
     ${SRC}/base/libs/androidfw/ObbFile.cpp
@@ -57,6 +58,8 @@ target_compile_definitions(libandroidfw PRIVATE
     )
 
 target_include_directories(libandroidfw PUBLIC
+    # stub header aconfig (android_content_res.h, dll) dibuat oleh misc/gen_aconfig_stub.py
+    ${PROJECT_SOURCE_DIR}/misc/generated_flags
     ${SRC}/base/libs/androidfw/include
     ${SRC}/base/libs/androidfw/include_pathutils
     ${SRC}/core/libcutils/include

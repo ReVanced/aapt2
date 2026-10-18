@@ -69,9 +69,19 @@ set(INCLUDES
     ${SRC}/googletest/googletest/include
     ${SRC}/libziparchive/include
     ${SRC}/soong/cc/libbuildversion/include
+    # header abseil (protobuf 33.x), diunduh CMake via FetchContent saat configure
+    ${CMAKE_BINARY_DIR}/_deps/absl-src
     ${SRC}/incremental_delivery/incfs/util/include
     ${SRC}/incremental_delivery/incfs/kernel-headers
     )
+
+# protobuf 33.x: parse_context.h meng-include "utf8_validity.h" dari third_party/utf8_range.
+file(GLOB_RECURSE _utf8_validity_h "${SRC}/protobuf/*utf8_validity.h")
+foreach(_h ${_utf8_validity_h})
+    get_filename_component(_d ${_h} DIRECTORY)
+    list(APPEND INCLUDES ${_d})
+endforeach()
+list(REMOVE_DUPLICATES INCLUDES)
 
 set(TOOL_SOURCE
     ${SRC}/base/tools/aapt2/cmd/ApkInfo.cpp
@@ -112,6 +122,8 @@ add_library(libaapt2 STATIC
     ${SRC}/base/tools/aapt2/io/ZipArchive.cpp
     ${SRC}/base/tools/aapt2/link/AutoVersioner.cpp
     ${SRC}/base/tools/aapt2/link/FeatureFlagsFilter.cpp
+    ${SRC}/base/tools/aapt2/link/FlagNotEnabledResourceRemover.cpp
+    ${SRC}/base/tools/aapt2/link/FlaggedXmlVersioner.cpp
     ${SRC}/base/tools/aapt2/link/ManifestFixer.cpp
     ${SRC}/base/tools/aapt2/link/NoDefaultResourceRemover.cpp
     ${SRC}/base/tools/aapt2/link/PrivateAttributeMover.cpp
@@ -162,6 +174,16 @@ add_library(libaapt2 STATIC
     ${AAPT2_PROTO_SRC}
     ${AAPT2_PROTO_HDRS}
     )
+
+# Unicode_data.cpp baru di Android 17: dikompilasi terpisah kecuali sudah di-#include
+# oleh Unicode.cpp (kalau tidak, simbolnya dobel).
+set(UNICODE_DATA ${SRC}/base/tools/aapt2/text/Unicode_data.cpp)
+if(EXISTS ${UNICODE_DATA})
+    file(READ ${SRC}/base/tools/aapt2/text/Unicode.cpp _unicode_src)
+    if(NOT _unicode_src MATCHES "Unicode_data")
+        target_sources(libaapt2 PRIVATE ${UNICODE_DATA})
+    endif()
+endif()
 
 target_include_directories(libaapt2 PRIVATE ${INCLUDES})
 target_compile_options(libaapt2 PRIVATE ${COMPILE_FLAGS})

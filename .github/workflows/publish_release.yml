@@ -1,0 +1,75 @@
+name: Publish AAPT2 release
+
+# Turns the artifacts of a finished "Build AAPT2 (Android 17 / API 37)" run into a permanent GitHub release with SHA-256 checksums,
+# so other repositories (Studio Mobile) can download the binaries with a plain URL. It does not rebuild anything.
+on:
+  workflow_dispatch:
+    inputs:
+      run_id:
+        description: "Run id of a successful release.yml run (the number in .../actions/runs/<id>). Empty = latest successful run."
+        required: false
+        default: ""
+      tag:
+        description: "Release tag to create"
+        required: true
+        default: "aapt2-android17-37.0.0"
+
+permissions:
+  contents: write
+  actions: read
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Resolve the run to publish
+        id: run
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RUN_ID_INPUT: ${{ inputs.run_id }}
+        run: |
+          set -euo pipefail
+          run_id="$RUN_ID_INPUT"
+          if [ -z "$run_id" ]; then
+            run_id=$(gh run list --repo "$GITHUB_REPOSITORY" --workflow release.yml --status success --limit 1 --json databaseId --jq '.[0].databaseId')
+          fi
+          [ -n "$run_id" ] && [ "$run_id" != "null" ] || { echo "No successful release.yml run found." >&2; exit 1; }
+          echo "Publishing artifacts of run $run_id"
+          echo "id=$run_id" >> "$GITHUB_OUTPUT"
+
+      - name: Download the four binaries
+        uses: actions/download-artifact@v4
+        with:
+          pattern: aapt2-*
+          merge-multiple: true
+          path: dist
+          run-id: ${{ steps.run.outputs.id }}
+          repository: ${{ github.repository }}
+          github-token: ${{ github.token }}
+
+      - name: Check and checksum
+        run: |
+          set -euo pipefail
+          cd dist
+          ls -l
+          for abi in arm64-v8a armeabi-v7a x86_64 x86; do
+            [ -s "aapt2-$abi" ] || { echo "aapt2-$abi is missing or empty" >&2; exit 1; }
+          done
+          file aapt2-*
+          sha256sum aapt2-* | tee SHA256SUMS
+
+      - name: Create the release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ inputs.tag }}
+          RUN_ID: ${{ steps.run.outputs.id }}
+        run: |
+          set -euo pipefail
+          cd dist
+          notes="AAPT2 built from AOSP android-17.0.0_r1 (API 37) by workflow run $RUN_ID.
+
+          SHA-256:
+          $(cat SHA256SUMS)"
+          gh release create "$TAG" aapt2-arm64-v8a aapt2-armeabi-v7a aapt2-x86_64 aapt2-x86 SHA256SUMS \
+            --repo "$GITHUB_REPOSITORY" --title "AAPT2 Android 17 (API 37)" --notes "$notes" || \
+          gh release upload "$TAG" aapt2-arm64-v8a aapt2-armeabi-v7a aapt2-x86_64 aapt2-x86 SHA256SUMS --clobber --repo "$GITHUB_REPOSITORY"

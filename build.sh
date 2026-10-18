@@ -50,7 +50,22 @@ cmake -GNinja \
   -DZLIB_USE_STATIC_LIBS=ON
 
 # Build the binary
-ninja -C build aapt2
+# -k 0 = jangan berhenti di error pertama, supaya semua error muncul dalam satu log.
+# Set NINJA_STOP_ON_ERROR=1 untuk berhenti di error pertama seperti biasa.
+NINJA_FLAGS="-k 0"
+[[ "${NINJA_STOP_ON_ERROR:-0}" == "1" ]] && NINJA_FLAGS=""
+
+ninja -C build $NINJA_FLAGS aapt2 2>&1 | tee build.log
+status=${PIPESTATUS[0]}
+
+if [[ $status -ne 0 ]]; then
+    echo
+    echo "================ RINGKASAN ERROR (screenshot bagian ini) ================"
+    grep -E "error:|undefined (reference|symbol)|No such file" build.log \
+        | grep -v "Werror" | sed 's/\x1b\[[0-9;]*m//g' | sort -u | head -30 | cut -c1-300
+    echo "========================================================================="
+    exit $status
+fi
 
 # Remove debug symbol
 "$ANDROID_NDK/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-strip" --strip-unneeded  "build/bin/aapt2-$architecture"

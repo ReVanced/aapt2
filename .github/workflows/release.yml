@@ -1,25 +1,24 @@
-name: Release
+name: Build AAPT2 (Android 17 / API 37)
 
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - main
-      - dev
+    inputs:
+      aosp_tag:
+        description: "Tag AOSP untuk semua submodule"
+        default: "android-17.0.0_r1"
+        required: true
 
 jobs:
   build:
-    name: Build
+    name: Build ${{ matrix.target_arch }}
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        target_arch: [x86_64, x86, arm64-v8a, armeabi-v7a]
+        target_arch: [arm64-v8a, armeabi-v7a, x86_64, x86]
       fail-fast: false
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        with:
-          submodules: 'true'
 
       - name: Setup NDK
         uses: nttld/setup-ndk@v1
@@ -28,70 +27,90 @@ jobs:
           ndk-version: r27c
           add-to-path: false
 
-      - name: Get protoc
+      - name: Fetch submodules at AOSP tag (with retry)
+        env:
+          TAG: ${{ inputs.aosp_tag }}
         run: |
-          wget https://github.com/protocolbuffers/protobuf/releases/download/v21.12/protoc-21.12-linux-x86_64.zip
-          sudo unzip -j protoc-*.zip bin/protoc -d /usr/local/bin/
+          set -uo pipefail
+          while read -r key path; do
+            url=$(git config -f .gitmodules --get "${key%.path}.url")
+            ok=0
+            for attempt in 1 2 3 4; do
+              rm -rf "$path"
+              if git clone --depth 1 --branch "$TAG" "$url" "$path"; then ok=1; break; fi
+              echo "Percobaan $attempt gagal untuk $path, coba lagi..."
+              sleep $((attempt * 20))
+            done
+            if [ "$ok" = 1 ]; then
+              # .git dihapus: tidak dibutuhkan lagi, dan mencegah warning
+              # "No url found for submodule path 'submodules/pcre/deps/sljit'" saat cleanup checkout.
+              rm -rf "$path/.git"
+              echo "OK    $path -> $TAG"
+            else
+              echo "FAIL  $path (tag $TAG tidak bisa diambil)"
+              exit 1
+            fi
+          done < <(git config -f .gitmodules --get-regexp '^submodule\..*\.path$')
+          sed -i 's/PLATFORM_TOOLS_VERSION ".*"/PLATFORM_TOOLS_VERSION "37.0.0"/' misc/platform_tools_version.h
+
+      # protoc HARUS sama dengan versi runtime protobuf di submodule. Android 17 memakai
+      # protobuf 33.x; protoc 21.12 menghasilkan kode .pb.cc yang tidak cocok.
+      - name: Get protoc (versi mengikuti submodule protobuf)
+        run: |
+          set -euo pipefail
+          PROTOC_VERSION=$(sed -n 's/^PROTOC_VERSION *= *"\(.*\)".*/\1/p' submodules/protobuf/protobuf_version.bzl | head -n1)
+          if [ -z "$PROTOC_VERSION" ]; then
+            echo "PROTOC_VERSION tidak ditemukan di protobuf_version.bzl"; exit 1
+          fi
+          echo "protoc yang dibutuhkan: $PROTOC_VERSION"
+          wget -q "https://github.com/protocolbuffers/protobuf/releases/download/v${PROTOC_VERSION}/protoc-${PROTOC_VERSION}-linux-x86_64.zip" -O protoc.zip
+          sudo unzip -o -j protoc.zip bin/protoc -d /usr/local/bin/
+          sudo chmod +x /usr/local/bin/protoc
+          protoc --version
 
       - name: Apply patch
         run: ./patch.sh
+
+      - name: Drop sources missing in this AOSP version
+        run: |
+          python3 - <<'PY'
+          import os, pathlib, re
+          pattern = re.compile(r'^\s*\$\{SRC\}/(\S+\.(?:c|cc|cpp|S|asm))\s*$')
+          listed = set()
+          for cmake_file in sorted(pathlib.Path("cmake").glob("*.cmake")):
+              kept = []
+              for line in cmake_file.read_text().splitlines(keepends=True):
+                  match = pattern.match(line)
+                  if match:
+                      listed.add(match.group(1))
+                      if not os.path.isfile("submodules/" + match.group(1)):
+                          print(f"REMOVED from {cmake_file.name}: {match.group(1)}")
+                          continue
+                  kept.append(line)
+              cmake_file.write_text("".join(kept))
+          print("Selesai memeriksa file sumber.")
+
+          # Diagnostik: file sumber baru di Android 17 yang belum ada di cmake/*.cmake.
+          # Kalau nanti muncul "undefined reference" saat link, cek daftar ini.
+          skip = re.compile(r'(_test|_benchmark|test|benchmark|fuzz|example)', re.I)
+          for d in ("base/libs/androidfw", "base/tools/aapt2"):
+              root = pathlib.Path("submodules") / d
+              for f in sorted(root.rglob("*.cpp")):
+                  rel = f.relative_to("submodules").as_posix()
+                  if rel not in listed and not skip.search(rel):
+                      print(f"NOTE  tidak ada di cmake: {rel}")
+          PY
 
       - name: Build
         env:
           ANDROID_NDK: ${{ steps.setup-ndk.outputs.ndk-path }}
         run: bash ./build.sh ${{ matrix.target_arch }}
 
+      - name: Show checksum
+        run: sha256sum build/bin/aapt2-*
+
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
           name: aapt2-${{ matrix.target_arch }}
-          path: ${{ github.workspace }}/build/bin/aapt2-*
-          archive: false
-
-  release:
-    needs: build
-    runs-on: ubuntu-latest
-    permissions:
-      id-token: write
-      contents: write
-      attestations: write
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          # Make sure the release step uses its own credentials:
-          # https://github.com/cycjimmy/semantic-release-action#private-packages
-          persist-credentials: false
-
-      - name: Download all built artifacts
-        uses: actions/download-artifact@v4
-        with:
-          path: ${{ github.workspace }}/build/bin/
-          merge-multiple: true
-
-      - name: Generate attestations
-        if: ${{ steps.release.outputs.release_created }}
-        uses: actions/attest-build-provenance@v2
-        with:
-          subject-path: ${{ github.workspace }}/build/bin/aapt2-*
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: "lts/*"
-          cache: 'npm'
-
-      - name: Install dependencies
-        run: npm install
-
-      - name: Import GPG key
-        uses: crazy-max/ghaction-import-gpg@v6
-        with:
-          gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
-          passphrase: ${{ secrets.GPG_PASSPHRASE }}
-          fingerprint: ${{ vars.GPG_FINGERPRINT }}
-
-      - name: Release
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: npm exec semantic-release
+          path: build/bin/aapt2-*
